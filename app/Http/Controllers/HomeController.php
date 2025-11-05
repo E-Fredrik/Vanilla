@@ -9,17 +9,19 @@ class HomeController extends Controller
 {
     public function index()
     {
-        // Fetch products
-        $productModel = new Product();
-        $featuredProducts = $productModel->getLatestProducts();
+        // // Fetch products
+        // $productModel = new Product();
+        // $featuredProducts = $productModel->getLatestProducts();
         
-        // Fetch testimonies
-        $testimonyModel = new Testimony();
-        $testimonies = $testimonyModel->getTestimonies();
+        // // Fetch testimonies
+        // $testimonyModel = new Testimony();
+        // $testimonies = $testimonyModel->getTestimonies();
         
         return view('home', [
-            'featuredProducts' => $featuredProducts,
-            'testimonies' => $testimonies
+            'featuredProducts' => Product::orderBy('created_at', 'desc')
+                ->limit(4)
+                ->get(),
+            'testimonies' => Testimony::all()
         ]);
     }
 }

@@ -213,11 +213,7 @@
                                 </div>
                                 <h5 class="fw-bold mb-1" style="color: #2C2C2C;">{{ $staff->name }}</h5>
                                 <p class="text-muted small mb-2">
-                                    <i class="{{ $staff->icon }} me-1" style="color: #D4AF88;"></i>
                                     {{ $staff->position }}
-                                </p>
-                                <p class="text-muted small">
-                                    {{ $staff->description }}
                                 </p>
                             </div>
                         </div>

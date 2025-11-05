@@ -14,20 +14,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create or update a test user (idempotent — won't fail if run multiple times)
-        User::updateOrCreate(
-            ['email' => 'test@example.com'],
-            [
-                'name' => 'Test User',
-                'email_verified_at' => now(),
-                'password' => Hash::make('password'),
-                'remember_token' => Str::random(10),
-            ]
-        );
-
-        // Call the ProductSeeder
+        // Call all seeders
         $this->call([
+            AdminSeeder::class,
             ProductSeeder::class,
+            StaffSeeder::class,
+            TestimonySeeder::class,
         ]);
     }
 }

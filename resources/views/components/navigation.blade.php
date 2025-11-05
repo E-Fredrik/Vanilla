@@ -37,6 +37,28 @@
                         Contact
                     </a>
                 </li>
+                
+                @auth
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom {{ Request::is('dashboard*') ? 'active' : '' }}" href="{{ route('dashboard') }}">
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                            @csrf
+                            <button type="submit" class="nav-link nav-link-custom btn btn-link text-decoration-none" style="border: none; background: none;">
+                                Logout
+                            </button>
+                        </form>
+                    </li>
+                @else
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom {{ Request::is('login') ? 'active' : '' }}" href="{{ route('login') }}">
+                            Login
+                        </a>
+                    </li>
+                @endauth
             </ul>
         </div>
     </div>

@@ -8,8 +8,7 @@ use App\Models\Staff;
 class StaffsController extends Controller
 {
     public function index() {
-        $staffModel = new Staff();
-        $staffs = $staffModel->getStaffs();
-        return view('aboutUs', ['staffs' => $staffs]);
+        $staffs = Staff::all();
+        return view('staffs', ['staffs' => $staffs]);
     }
 }

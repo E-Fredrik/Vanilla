@@ -8,15 +8,12 @@ use Illuminate\Http\Request;
 class ProductsController extends Controller
 {
     public function index() {
-        $productsModel = new Product();
-        $products = $productsModel->getProducts();
+        $products = Product::all();
         return view('products', ['products' => $products]);
     }
 
     public function show($id) {
-        $productsModel = new Product();
-        $product = $productsModel->getProductById($id);
-        
+        $product = Product::find($id);
         if (!$product) {
             abort(404, 'Product not found');
         }
@@ -26,8 +23,9 @@ class ProductsController extends Controller
 
 
     public function home() {
-        $product = new Product();
-        $featuredProduct = $product->getLatestProducts();
+        $featuredProduct = Product::orderBy('created_at', 'desc')
+            ->limit(4)
+            ->get();
         return view('home', ['featuredProducts' => $featuredProduct]);
     }
 }

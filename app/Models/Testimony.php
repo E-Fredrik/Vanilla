@@ -11,7 +11,7 @@ class Testimony extends Model
         "content"
     ];
 
-    public function getTestimonies() {
-        return self::all();
-    }
+    // public function getTestimonies() {
+    //     return self::all();
+    // }
 }

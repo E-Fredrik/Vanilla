@@ -11,7 +11,7 @@ class Staff extends Model
     protected $table = "staffs";
     protected $fillable = ['name', 'position'];
 
-    public function getStaffs() {
-        return self::all();
-    }
+    // public function getStaffs() {
+    //     return self::all();
+    // }
 }
