@@ -4,9 +4,6 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Manage Products') }}
             </h2>
-            <a href="{{ route('admin.products.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Add New Product
-            </a>
         </div>
     </x-slot>
 
@@ -17,6 +14,12 @@
                     <span class="block sm:inline">{{ session('success') }}</span>
                 </div>
             @endif
+
+            <div class="mb-6 flex justify-end">
+                <a href="{{ route('admin.products.create') }}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Add New Product
+                </a>
+            </div>
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
@@ -34,8 +37,8 @@
                             @forelse ($products as $product)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        @if ($product->imagePath && file_exists(public_path($product->imagePath)))
-                                            <img src="{{ asset($product->imagePath) }}" alt="{{ $product->name }}" class="h-16 w-16 object-cover rounded">
+                                        @if ($product->imagePath && Storage::disk('public')->exists($product->imagePath))
+                                            <img src="{{ asset('storage/' . $product->imagePath) }}" alt="{{ $product->name }}" class="h-16 w-16 object-cover rounded">
                                         @else
                                             <div class="h-16 w-16 bg-gray-200 rounded flex items-center justify-center">
                                                 <span class="text-gray-400">No image</span>

@@ -53,11 +53,32 @@
                         <div class="position-relative overflow-hidden rounded-top-3" 
                              style="background-color: #F5E6D3; height: 280px;">
                             
-                            @if(isset($product['imagePath']) && $product['imagePath'] && file_exists(public_path($product['imagePath'])))
-                                <img src="{{ asset($product['imagePath']) }}"
-                                     class="card-img-top h-100 w-100 product-image"
-                                     alt="{{ $product['name'] }}"
-                                     style="object-fit: cover; transition: transform 0.3s ease;">
+                            @if(isset($product['imagePath']) && $product['imagePath'])
+                                @if(str_starts_with($product['imagePath'], 'images/'))
+                                    {{-- Old format: direct public path --}}
+                                    @if(file_exists(public_path($product['imagePath'])))
+                                        <img src="{{ asset($product['imagePath']) }}"
+                                             class="card-img-top h-100 w-100 product-image"
+                                             alt="{{ $product['name'] }}"
+                                             style="object-fit: cover; transition: transform 0.3s ease;">
+                                    @else
+                                        <div class="d-flex align-items-center justify-content-center h-100">
+                                            <i class="bi bi-image display-1" style="color: #D4AF88;"></i>
+                                        </div>
+                                    @endif
+                                @else
+                                    {{-- New format: storage path --}}
+                                    @if(Storage::disk('public')->exists($product['imagePath']))
+                                        <img src="{{ asset('storage/' . $product['imagePath']) }}"
+                                             class="card-img-top h-100 w-100 product-image"
+                                             alt="{{ $product['name'] }}"
+                                             style="object-fit: cover; transition: transform 0.3s ease;">
+                                    @else
+                                        <div class="d-flex align-items-center justify-content-center h-100">
+                                            <i class="bi bi-image display-1" style="color: #D4AF88;"></i>
+                                        </div>
+                                    @endif
+                                @endif
                             @else
                                 <div class="d-flex align-items-center justify-content-center h-100">
                                     <i class="bi bi-image display-1" style="color: #D4AF88;"></i>

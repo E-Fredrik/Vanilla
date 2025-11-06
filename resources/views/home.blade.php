@@ -54,11 +54,24 @@
                                         <!-- Fixed height container -->
                                         <div class="d-flex align-items-center justify-content-center position-relative" 
                                              style="height: 500px;">
-                                            @if ($product->imagePath && file_exists(public_path($product->imagePath)))
-                                                <img src="{{ $product->imagePath }}"
-                                                    class="w-100 h-100 carousel-product-image" 
-                                                    alt="{{ $product->name }}"
-                                                    style="object-fit: cover; object-position: center;">
+                                            @if ($product->imagePath)
+                                                @if(str_starts_with($product->imagePath, 'images/'))
+                                                    {{-- Old format --}}
+                                                    @if(file_exists(public_path($product->imagePath)))
+                                                        <img src="{{ asset($product->imagePath) }}"
+                                                            class="w-100 h-100 carousel-product-image" 
+                                                            alt="{{ $product->name }}"
+                                                            style="object-fit: cover; object-position: center;">
+                                                    @else
+                                                        <i class="bi bi-image display-1" style="color: #D4AF88;"></i>
+                                                    @endif
+                                                @else
+                                                    {{-- New format --}}
+                                                    <img src="{{ asset('storage/' . $product->imagePath) }}"
+                                                        class="w-100 h-100 carousel-product-image" 
+                                                        alt="{{ $product->name }}"
+                                                        style="object-fit: cover; object-position: center;">
+                                                @endif
                                             @else
                                                 <i class="bi bi-image display-1" style="color: #D4AF88;"></i>
                                             @endif

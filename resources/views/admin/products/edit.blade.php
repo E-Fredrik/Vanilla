@@ -54,10 +54,10 @@
                         </div>
 
                         <!-- Current Image -->
-                        @if ($product->imagePath && file_exists(public_path($product->imagePath)))
+                        @if ($product->imagePath && Storage::disk('public')->exists($product->imagePath))
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-700">Current Image</label>
-                                <img src="{{ asset($product->imagePath) }}" alt="{{ $product->name }}" class="mt-2 h-32 w-32 object-cover rounded">
+                                <img src="{{ asset('storage/' . $product->imagePath) }}" alt="{{ $product->name }}" class="mt-2 h-32 w-32 object-cover rounded">
                             </div>
                         @endif
 

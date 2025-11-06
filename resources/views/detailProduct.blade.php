@@ -17,12 +17,32 @@
             <div class="col-md-6 mb-4">
                 <div class="card shadow-sm overflow-hidden">
                     @if(isset($product['imagePath']) && $product['imagePath'])
-                        <div class="ratio ratio-1x1" style="background-color: #F5E6D3;">
-                            <img src="{{ asset($product['imagePath']) }}" 
-                                 alt="{{ $product['name'] }}" 
-                                 class="w-100 h-100"
-                                 style="object-fit: cover;">
-                        </div>
+                        @if(str_starts_with($product['imagePath'], 'images/'))
+                            {{-- Old format --}}
+                            @if(file_exists(public_path($product['imagePath'])))
+                                <div class="ratio ratio-1x1" style="background-color: #F5E6D3;">
+                                    <img src="{{ asset($product['imagePath']) }}" 
+                                         alt="{{ $product['name'] }}" 
+                                         class="w-100 h-100"
+                                         style="object-fit: cover;">
+                                </div>
+                            @else
+                                <div class="ratio ratio-1x1 d-flex align-items-center justify-content-center" style="background-color: #F5E6D3;">
+                                    <div class="text-center">
+                                        <i class="bi bi-image" style="font-size: 5rem; color: #D4AF88;"></i>
+                                        <p class="mt-3 text-muted">No image available</p>
+                                    </div>
+                                </div>
+                            @endif
+                        @else
+                            {{-- New format --}}
+                            <div class="ratio ratio-1x1" style="background-color: #F5E6D3;">
+                                <img src="{{ asset('storage/' . $product['imagePath']) }}" 
+                                     alt="{{ $product['name'] }}" 
+                                     class="w-100 h-100"
+                                     style="object-fit: cover;">
+                            </div>
+                        @endif
                     @else
                         <div class="ratio ratio-1x1 d-flex align-items-center justify-content-center" style="background-color: #F5E6D3;">
                             <div class="text-center">
