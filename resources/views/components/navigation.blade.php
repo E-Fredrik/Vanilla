@@ -3,7 +3,7 @@
     <div class="container-fluid px-4">
         <!-- Logo/Brand -->
         <a class="navbar-brand fw-bold fs-3 d-flex align-items-center gap-2" href="/" style="font-family: Georgia, serif; letter-spacing: 1px; color: #2C2C2C;">
-            <img src="{{ asset('images/Logo_Vanilla.png') }}" 
+            <img src="{{ asset('storage/images/Logo_Vanilla.png') }}" 
                  alt="Logo Vanilla Bakery" 
                  style="height: 40px; width: auto; object-fit: contain;">
             <span>Vanilla Bakery</span>

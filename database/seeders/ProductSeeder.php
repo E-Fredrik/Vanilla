@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Product;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Category;
 use Illuminate\Database\Seeder;
 
 class ProductSeeder extends Seeder
@@ -13,79 +13,99 @@ class ProductSeeder extends Seeder
      */
     public function run(): void
     {
-        Product::create([
+        // Get categories
+        $cakes = Category::where('name', 'Cakes')->first();
+        $pastries = Category::where('name', 'Pastries')->first();
+        $breads = Category::where('name', 'Breads')->first();
+
+        $chocolatePudding = Product::create([
             'name' => 'Chocolate Pudding',
             'description' => 'A sweet and creamy chocolate pudding made with high-quality cocoa.',
             'price' => 2000,
             'ingredients' => 'Milk, sugar, cocoa powder, cornstarch, vanilla extract',
             'imagePath' => 'images/Chocolate_Pudding.png',
         ]);
+        $chocolatePudding->categories()->attach([$cakes->id]);
 
-        Product::create([
+        $chocolateDonut = Product::create([
             'name' => 'Chocolate Donut',
             'description' => 'A soft and fluffy donut coated with rich chocolate glaze.',
             'price' => 15000,
             'ingredients' => 'Flour, sugar, eggs, butter, milk, cocoa powder, yeast, salt',
             'imagePath' => 'images/Donut.png',
         ]);
+        $chocolateDonut->categories()->attach([$pastries->id]);
 
-
-        Product::create([
+        $eclairChocolate = Product::create([
             'name' => 'Eclair Chocolate',
-            'description' => 'A classic French pastry filled with rich chocolate cream and topped with chocolate icing.',
+            'description' => 'A classic French pastry filled with rich chocolate cream.',
             'price' => 8000,
-            'ingredients' => 'Flour, sugar, eggs, butter, milk, chocolate, cream, yeast, salt',
+            'ingredients' => 'Flour, sugar, eggs, butter, milk, chocolate, cream',
             'imagePath' => 'images/Eclair.png',
         ]);
+        $eclairChocolate->categories()->attach([$pastries->id]);
 
-        Product::create([
+        $garlicBread = Product::create([
             'name' => 'Garlic Bread',
-            'description' => 'A crispy bread topped with garlic butter and herbs, perfect as a side dish.',
+            'description' => 'A crispy bread topped with garlic butter and herbs.',
             'price' => 10000,
             'ingredients' => 'Flour, garlic, butter, parsley, yeast, salt',
             'imagePath' => 'images/Garlic_Bread.png',
         ]);
-        Product::create([
+        $garlicBread->categories()->attach([$breads->id]);
+
+        $sausageBread = Product::create([
             'name' => 'Sausage Bread',
-            'description' => 'A savory bread filled with juicy sausage and topped with cheese.',
+            'description' => 'A savory bread filled with juicy sausage.',
             'price' => 10000,
-            'ingredients' => 'Flour, sausage, cheese, eggs, milk, butter, yeast, salt',
+            'ingredients' => 'Flour, sausage, cheese, eggs, milk, butter',
             'imagePath' => 'images/Sausage_Bread.png',
         ]);
-        Product::create([
+        $sausageBread->categories()->attach([$breads->id]);
+
+        $sausageBrood = Product::create([
             'name' => 'Sausage Brood',
             'description' => 'A savory bread filled with juicy sausage and topped with cheese.',
             'price' => 10000,
             'ingredients' => 'Flour, sausage, cheese, eggs, milk, butter, yeast, salt',
             'imagePath' => 'images/Sausage_Brood.png',
         ]);
-        Product::create([
+        $sausageBrood->categories()->attach([$breads->id]);
+
+        $blackCreamCheeseCake = Product::create([
             'name' => 'Black Cream Cheese Cake',
-            'description' => 'A rich and creamy cheesecake with a chocolate crust and a smooth cream cheese filling.',
+            'description' => 'A rich and creamy cheesecake with a chocolate crust.',
             'price' => 10000,
-            'ingredients' => 'Flour, cream cheese, sugar, eggs, butter, cocoa powder, vanilla extract',
+            'ingredients' => 'Flour, cream cheese, sugar, eggs, butter, cocoa powder',
             'imagePath' => 'images/Cake_ketan_hitam_cream_cheese.png',
         ]);
-        Product::create([
+        $blackCreamCheeseCake->categories()->attach([$cakes->id]);
+
+        $chocolateBananaBread = Product::create([
             'name' => 'Chocolate Banana Bread',
-            'description' => 'A moist and flavorful banana bread with chunks of chocolate throughout.',
+            'description' => 'A moist banana bread with chunks of chocolate.',
             'price' => 7000,
-            'ingredients' => 'Flour, bananas, sugar, eggs, butter, chocolate chips, baking soda, salt',
+            'ingredients' => 'Flour, bananas, sugar, eggs, butter, chocolate chips',
             'imagePath' => 'images/Chocolate_Banana_Bread.png',
         ]);
-        Product::create([
+        $chocolateBananaBread->categories()->attach([$breads->id]);
+
+        $chocolateChoux = Product::create([
             'name' => 'Chocolate Choux',
-            'description' => 'A light and airy pastry filled with rich chocolate cream and topped with chocolate glaze.',
+            'description' => 'A light pastry filled with rich chocolate cream.',
             'price' => 10000,
-            'ingredients' => 'Flour, butter, chocolate, sugar, eggs, milk, yeast, salt',
+            'ingredients' => 'Flour, butter, chocolate, sugar, eggs, milk',
             'imagePath' => 'images/Chocolate_Choux.png',
         ]);
-        Product::create([
+        $chocolateChoux->categories()->attach([$pastries->id]);
+
+        $shreddedBeefBread = Product::create([
             'name' => 'Shredded Beef Bread',
             'description' => 'A savory bread filled with tender shredded beef.',
             'price' => 10000,
-            'ingredients' => 'Flour, shredded beef, garlic, eggs, milk, butter, yeast, salt',
+            'ingredients' => 'Flour, shredded beef, garlic, eggs, milk, butter',
             'imagePath' => 'images/Shredded_Beef_Bread.png',
         ]);
+        $shreddedBeefBread->categories()->attach([$breads->id]);
     }
 }

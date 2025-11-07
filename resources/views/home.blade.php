@@ -2,7 +2,7 @@
 @section('title', 'Home - Vanilla Bakery')
 @section('content')
     <link rel="stylesheet" href="css/home.css">
-   
+
     <!-- Jumbotron Hero -->
     <div class="jumbotron mb-0">
         <div class="jumbotron-content container">
@@ -55,22 +55,32 @@
                                         <div class="d-flex align-items-center justify-content-center position-relative" 
                                              style="height: 500px;">
                                             @if ($product->imagePath)
-                                                @if(str_starts_with($product->imagePath, 'images/'))
-                                                    {{-- Old format --}}
-                                                    @if(file_exists(public_path($product->imagePath)))
-                                                        <img src="{{ asset($product->imagePath) }}"
-                                                            class="w-100 h-100 carousel-product-image" 
-                                                            alt="{{ $product->name }}"
-                                                            style="object-fit: cover; object-position: center;">
-                                                    @else
-                                                        <i class="bi bi-image display-1" style="color: #D4AF88;"></i>
-                                                    @endif
-                                                @else
-                                                    {{-- New format --}}
-                                                    <img src="{{ asset('storage/' . $product->imagePath) }}"
+                                                @php
+                                                    // Clean the path
+                                                    $cleanPath = str_replace('images/', '', $product->imagePath);
+                                                    $cleanPath = str_replace('storage/', '', $cleanPath);
+                                                    
+                                                    // Check both locations
+                                                    $storageExists = Storage::disk('public')->exists('images/' . $cleanPath);
+                                                    $publicExists = file_exists(public_path('images/' . $cleanPath));
+                                                    
+                                                    // Determine which path to use
+                                                    if ($storageExists) {
+                                                        $imageSrc = asset('storage/images/' . $cleanPath);
+                                                    } elseif ($publicExists) {
+                                                        $imageSrc = asset('images/' . $cleanPath);
+                                                    } else {
+                                                        $imageSrc = null;
+                                                    }
+                                                @endphp
+                                                
+                                                @if($imageSrc)
+                                                    <img src="{{ $imageSrc }}"
                                                         class="w-100 h-100 carousel-product-image" 
                                                         alt="{{ $product->name }}"
                                                         style="object-fit: cover; object-position: center;">
+                                                @else
+                                                    <i class="bi bi-image display-1" style="color: #D4AF88;"></i>
                                                 @endif
                                             @else
                                                 <i class="bi bi-image display-1" style="color: #D4AF88;"></i>
@@ -106,13 +116,13 @@
 
                                             <!-- Action Buttons -->
                                             <div class="d-grid gap-2 d-sm-flex gap-sm-3">
-                                                <a href="/products/{{ $product->id }}" 
-                                                   class="btn btn-lg px-4 px-lg-5 shadow"
-                                                   style="background-color: #D4AF88; color: white; border: none;">
+                                                <a href="/products/{{ $product->id }}"
+                                                    class="btn btn-lg px-4 px-lg-5 shadow"
+                                                    style="background-color: #D4AF88; color: white; border: none;">
                                                     <i class="bi bi-eye-fill me-2"></i>View Details
                                                 </a>
                                                 <a href="https://wa.me/6281332227289?text=Hi!%20I'm%20interested%20in%20{{ urlencode($product->name) }}"
-                                                   class="btn btn-outline-success btn-lg px-4 px-lg-5 shadow-sm">
+                                                    class="btn btn-outline-success btn-lg px-4 px-lg-5 shadow-sm">
                                                     <i class="bi bi-whatsapp me-2"></i>Order Now
                                                 </a>
                                             </div>
@@ -126,14 +136,14 @@
                     <!-- Carousel Controls -->
                     <button class="carousel-control-prev" type="button" data-bs-target="#featuredProductsCarousel"
                         data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon rounded-circle shadow-lg p-3 p-lg-4" 
-                              aria-hidden="true"></span>
+                        <span class="carousel-control-prev-icon rounded-circle shadow-lg p-3 p-lg-4"
+                            aria-hidden="true"></span>
                         <span class="visually-hidden">Previous</span>
                     </button>
                     <button class="carousel-control-next" type="button" data-bs-target="#featuredProductsCarousel"
                         data-bs-slide="next">
-                        <span class="carousel-control-next-icon rounded-circle shadow-lg p-3 p-lg-4" 
-                              aria-hidden="true"></span>
+                        <span class="carousel-control-next-icon rounded-circle shadow-lg p-3 p-lg-4"
+                            aria-hidden="true"></span>
                         <span class="visually-hidden">Next</span>
                     </button>
                 </div>
@@ -156,19 +166,18 @@
                 <!-- Bootstrap Carousel -->
                 <div id="testimonialsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
                     <div class="carousel-indicators">
-                        @foreach($testimonies as $index => $testimony)
-                            <button type="button" data-bs-target="#testimonialsCarousel" 
-                                    data-bs-slide-to="{{ $index }}" 
-                                    class="{{ $index === 0 ? 'active' : '' }}"
-                                    aria-current="{{ $index === 0 ? 'true' : 'false' }}" 
-                                    aria-label="Slide {{ $index + 1 }}">
+                        @foreach ($testimonies as $index => $testimony)
+                            <button type="button" data-bs-target="#testimonialsCarousel"
+                                data-bs-slide-to="{{ $index }}" class="{{ $index === 0 ? 'active' : '' }}"
+                                aria-current="{{ $index === 0 ? 'true' : 'false' }}"
+                                aria-label="Slide {{ $index + 1 }}">
                             </button>
                         @endforeach
                     </div>
 
                     <!-- Carousel Inner -->
                     <div class="carousel-inner">
-                        @foreach($testimonies as $index => $testimony)
+                        @foreach ($testimonies as $index => $testimony)
                             <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
                                 <div class="container">
                                     <div class="row justify-content-center">
@@ -176,9 +185,11 @@
                                             <div class="card border-0 shadow-lg">
                                                 <div class="card-body p-5 text-center">
                                                     <div class="mb-4">
-                                                        <i class="bi bi-quote text-muted" style="font-size: 3rem; opacity: 0.3;"></i>
+                                                        <i class="bi bi-quote text-muted"
+                                                            style="font-size: 3rem; opacity: 0.3;"></i>
                                                     </div>
-                                                    <p class="lead mb-4" style="color: #4A4A4A; line-height: 1.8; font-size: 1.25rem;">
+                                                    <p class="lead mb-4"
+                                                        style="color: #4A4A4A; line-height: 1.8; font-size: 1.25rem;">
                                                         "{{ $testimony->content }}"
                                                     </p>
                                                     <div class="d-flex align-items-center justify-content-center">
@@ -200,16 +211,16 @@
                     </div>
 
                     <!-- Carousel Controls -->
-                    <button class="carousel-control-prev" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon rounded-circle shadow-lg p-3" 
-                              style="background-color: #D4AF88;" 
-                              aria-hidden="true"></span>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#testimonialsCarousel"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon rounded-circle shadow-lg p-3"
+                            style="background-color: #D4AF88;" aria-hidden="true"></span>
                         <span class="visually-hidden">Previous</span>
                     </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#testimonialsCarousel" data-bs-slide="next">
-                        <span class="carousel-control-next-icon rounded-circle shadow-lg p-3" 
-                              style="background-color: #D4AF88;" 
-                              aria-hidden="true"></span>
+                    <button class="carousel-control-next" type="button" data-bs-target="#testimonialsCarousel"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon rounded-circle shadow-lg p-3"
+                            style="background-color: #D4AF88;" aria-hidden="true"></span>
                         <span class="visually-hidden">Next</span>
                     </button>
                 </div>
@@ -314,5 +325,5 @@
         </div>
     </div>
 
-    
+
 @endsection

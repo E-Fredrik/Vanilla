@@ -23,7 +23,7 @@
                     </p>
                 </div>
                 <div class="col-lg-6">
-                    <img src="{{ asset('images/jumbotron.jpeg') }}" alt="Vanilla Bakery" class="img-fluid rounded shadow-lg"
+                    <img src="{{ asset('storage/images/jumbotron.jpeg') }}" alt="Vanilla Bakery" class="img-fluid rounded shadow-lg"
                         style="object-fit: cover; max-height: 400px; width: 100%;">
                 </div>
             </div>
@@ -186,43 +186,7 @@
             </div>
         </div>
     </section>
-
-    <!-- Team Section -->
-    <section class="py-5">
-        <div class="container">
-            <div class="row mb-5">
-                <div class="col-lg-8 mx-auto text-center">
-                    <span class="badge rounded-pill px-4 py-2 mb-3" style="background-color: #D4AF88;">
-                        <i class="bi bi-people-fill me-2"></i>Our Team
-                    </span>
-                    <h2 class="display-5 fw-bold mb-3" style="color: #2C2C2C;">Meet Our Team</h2>
-                    <p class="lead text-muted">
-                        The talented bakers and staff who make Vanilla Bakery special.
-                    </p>
-                </div>
-            </div>
-
-            <div class="row g-4 justify-content-center">
-                @foreach ($staffs as $staff)
-                    <div class="col-lg-3 col-md-6">
-                        <div class="card border-0 shadow-sm h-100 hover-lift">
-                            <div class="card-body text-center p-4">
-                                <div class="rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center"
-                                    style="width: 120px; height: 120px; background-color: #F5E6D3;">
-                                    <i class="bi bi-person-fill" style="font-size: 4rem; color: #D4AF88;"></i>
-                                </div>
-                                <h5 class="fw-bold mb-1" style="color: #2C2C2C;">{{ $staff->name }}</h5>
-                                <p class="text-muted small mb-2">
-                                    {{ $staff->position }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </section>
-
+    
     <!-- Call to Action -->
     <section class="py-5" style="background: linear-gradient(135deg, #D4AF88 0%, #C19A6B 100%);">
         <div class="container">

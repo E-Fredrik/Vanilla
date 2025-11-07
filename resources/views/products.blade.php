@@ -54,36 +54,46 @@
                              style="background-color: #F5E6D3; height: 280px;">
                             
                             @if(isset($product['imagePath']) && $product['imagePath'])
-                                @if(str_starts_with($product['imagePath'], 'images/'))
-                                    {{-- Old format: direct public path --}}
-                                    @if(file_exists(public_path($product['imagePath'])))
-                                        <img src="{{ asset($product['imagePath']) }}"
-                                             class="card-img-top h-100 w-100 product-image"
-                                             alt="{{ $product['name'] }}"
-                                             style="object-fit: cover; transition: transform 0.3s ease;">
-                                    @else
-                                        <div class="d-flex align-items-center justify-content-center h-100">
-                                            <i class="bi bi-image display-1" style="color: #D4AF88;"></i>
-                                        </div>
-                                    @endif
+                                @php
+                                    $cleanPath = str_replace('images/', '', $product['imagePath']);
+                                    $cleanPath = str_replace('storage/', '', $cleanPath);
+                                    
+                                    $storageExists = Storage::disk('public')->exists('images/' . $cleanPath);
+                                    $publicExists = file_exists(public_path('images/' . $cleanPath));
+                                    
+                                    if ($storageExists) {
+                                        $imageSrc = asset('storage/images/' . $cleanPath);
+                                    } elseif ($publicExists) {
+                                        $imageSrc = asset('images/' . $cleanPath);
+                                    } else {
+                                        $imageSrc = null;
+                                    }
+                                @endphp
+                                
+                                @if($imageSrc)
+                                    <img src="{{ $imageSrc }}"
+                                         class="card-img-top h-100 w-100 product-image"
+                                         alt="{{ $product['name'] }}"
+                                         style="object-fit: cover; transition: transform 0.3s ease;">
                                 @else
-                                    {{-- New format: storage path --}}
-                                    @if(Storage::disk('public')->exists($product['imagePath']))
-                                        <img src="{{ asset('storage/' . $product['imagePath']) }}"
-                                             class="card-img-top h-100 w-100 product-image"
-                                             alt="{{ $product['name'] }}"
-                                             style="object-fit: cover; transition: transform 0.3s ease;">
-                                    @else
-                                        <div class="d-flex align-items-center justify-content-center h-100">
-                                            <i class="bi bi-image display-1" style="color: #D4AF88;"></i>
-                                        </div>
-                                    @endif
+                                    <div class="d-flex align-items-center justify-content-center h-100">
+                                        <i class="bi bi-image display-1" style="color: #D4AF88;"></i>
+                                    </div>
                                 @endif
                             @else
                                 <div class="d-flex align-items-center justify-content-center h-100">
                                     <i class="bi bi-image display-1" style="color: #D4AF88;"></i>
                                 </div>
                             @endif
+
+                            <!-- Category Badges -->
+                            <div class="position-absolute top-0 start-0 p-2">
+                                @foreach($product->categories as $category)
+                                    <span class="badge me-1 mb-1" style="background-color: #D4AF88;">
+                                        {{ $category->name }}
+                                    </span>
+                                @endforeach
+                            </div>
 
                             <!-- Overlay on hover -->
                             <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center product-overlay"

@@ -11,6 +11,10 @@ class Testimony extends Model
         "content"
     ];
 
+    public function product() {
+        return $this->belongsTo(Product::class);
+    }
+
     // public function getTestimonies() {
     //     return self::all();
     // }

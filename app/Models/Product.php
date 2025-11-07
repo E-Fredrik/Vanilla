@@ -6,13 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    private $id;
-    private $name;
-    private $price;
-    private $description;
-    private $ingredients;
-    private $imagePath;
-
     protected $fillable = [
         'name',
         'price',
@@ -21,17 +14,17 @@ class Product extends Model
         'imagePath'
     ];
 
-    // public function getProducts() {
-    //     return self::all();
-    // }
+    /**
+     * Get the categories for this product.
+     */
+    public function categories() {
+        return $this->belongsToMany(Category::class);
+    }
 
-    // public function getProductById($id) {
-    //     return self::find($id);
-    // }
-
-    // public function getLatestProducts() {
-    //     return self::orderBy('created_at', 'desc')
-    //         ->limit(4)
-    //         ->get();
-    // }
+    /**
+     * Get the testimonies for this product.
+     */
+    public function testimonies() {
+        return $this->hasMany(Testimony::class);
+    }
 }

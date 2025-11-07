@@ -14,11 +14,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Call all seeders
+        // Call all seeders in the correct order
         $this->call([
             AdminSeeder::class,
+            CategorySeeder::class,  // Must run before ProductSeeder
             ProductSeeder::class,
-            StaffSeeder::class,
             TestimonySeeder::class,
         ]);
     }

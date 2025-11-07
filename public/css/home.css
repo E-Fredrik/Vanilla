@@ -1,5 +1,5 @@
 .jumbotron {
-    background-image: url("../images/jumbotron.jpeg");
+    background-image: url("/storage/images/jumbotron.jpeg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
