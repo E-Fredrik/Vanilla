@@ -13,8 +13,8 @@ Route::get('/about', function() {
 
 Route::get('/', [HomeController::class, 'index']);
 
-Route::get('/products', [ProductsController::class, 'index']);
-Route::get('/products/{id}', [ProductsController::class, 'show']);
+Route::get('/products', [ProductsController::class, 'index'])->name('products.index');
+Route::get('/products/{id}', [ProductsController::class, 'show'])->name('products.show');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

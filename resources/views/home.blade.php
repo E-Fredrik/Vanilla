@@ -56,15 +56,12 @@
                                              style="height: 500px;">
                                             @if ($product->imagePath)
                                                 @php
-                                                    // Clean the path
                                                     $cleanPath = str_replace('images/', '', $product->imagePath);
                                                     $cleanPath = str_replace('storage/', '', $cleanPath);
                                                     
-                                                    // Check both locations
                                                     $storageExists = Storage::disk('public')->exists('images/' . $cleanPath);
                                                     $publicExists = file_exists(public_path('images/' . $cleanPath));
                                                     
-                                                    // Determine which path to use
                                                     if ($storageExists) {
                                                         $imageSrc = asset('storage/images/' . $cleanPath);
                                                     } elseif ($publicExists) {
@@ -75,10 +72,10 @@
                                                 @endphp
                                                 
                                                 @if($imageSrc)
-                                                    <img src="{{ $imageSrc }}"
-                                                        class="w-100 h-100 carousel-product-image" 
-                                                        alt="{{ $product->name }}"
-                                                        style="object-fit: cover; object-position: center;">
+                                                    <img src="{{ $imageSrc }}" 
+                                                         class="w-100 h-100 carousel-product-image" 
+                                                         alt="{{ $product->name }}"
+                                                         style="object-fit: cover;">
                                                 @else
                                                     <i class="bi bi-image display-1" style="color: #D4AF88;"></i>
                                                 @endif
@@ -122,6 +119,7 @@
                                                     <i class="bi bi-eye-fill me-2"></i>View Details
                                                 </a>
                                                 <a href="https://wa.me/6281332227289?text=Hi!%20I'm%20interested%20in%20{{ urlencode($product->name) }}"
+                                                    target="_blank"
                                                     class="btn btn-outline-success btn-lg px-4 px-lg-5 shadow-sm">
                                                     <i class="bi bi-whatsapp me-2"></i>Order Now
                                                 </a>
@@ -162,7 +160,7 @@
                 <p class="lead text-muted">Hear from our satisfied customers</p>
             </div>
 
-            <div class="col-12">
+            <div class="col-12 position-relative">
                 <!-- Bootstrap Carousel -->
                 <div id="testimonialsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
                     <div class="carousel-indicators">
@@ -182,7 +180,7 @@
                                 <div class="container">
                                     <div class="row justify-content-center">
                                         <div class="col-lg-8 col-md-10">
-                                            <div class="card border-0 shadow-lg">
+                                            <div class="card border-0 shadow-lg testimonial-card">
                                                 <div class="card-body p-5 text-center">
                                                     <div class="mb-4">
                                                         <i class="bi bi-quote text-muted"
@@ -210,17 +208,23 @@
                         @endforeach
                     </div>
 
-                    <!-- Carousel Controls -->
-                    <button class="carousel-control-prev" type="button" data-bs-target="#testimonialsCarousel"
-                        data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon rounded-circle shadow-lg p-3"
-                            style="background-color: #D4AF88;" aria-hidden="true"></span>
+                    <!-- Carousel Controls - Improved Design -->
+                    <button class="carousel-control-prev testimonial-control-prev" type="button" data-bs-target="#testimonialsCarousel"
+                        data-bs-slide="prev" style="width: auto; left: -60px;">
+                        <span class="d-flex align-items-center justify-content-center rounded-circle shadow" 
+                            style="background-color: #D4AF88; width: 45px; height: 45px; transition: all 0.3s ease;"
+                            aria-hidden="true">
+                            <i class="bi bi-chevron-left text-white" style="font-size: 1.2rem;"></i>
+                        </span>
                         <span class="visually-hidden">Previous</span>
                     </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#testimonialsCarousel"
-                        data-bs-slide="next">
-                        <span class="carousel-control-next-icon rounded-circle shadow-lg p-3"
-                            style="background-color: #D4AF88;" aria-hidden="true"></span>
+                    <button class="carousel-control-next testimonial-control-next" type="button" data-bs-target="#testimonialsCarousel"
+                        data-bs-slide="next" style="width: auto; right: -60px;">
+                        <span class="d-flex align-items-center justify-content-center rounded-circle shadow" 
+                            style="background-color: #D4AF88; width: 45px; height: 45px; transition: all 0.3s ease;"
+                            aria-hidden="true">
+                            <i class="bi bi-chevron-right text-white" style="font-size: 1.2rem;"></i>
+                        </span>
                         <span class="visually-hidden">Next</span>
                     </button>
                 </div>
@@ -241,7 +245,7 @@
 
             <div class="col-lg-6 mb-4">
                 <!-- Google Maps Embed -->
-                <div class="card border-0 shadow-sm h-100 overflow-hidden">
+                <div class="card border-0 shadow-sm h-100 overflow-hidden contact-card-no-hover">
                     <iframe class="w-100 h-100"
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.7620773419703!2d112.44515921144023!3d-7.267894071383989!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e780343f0176b45%3A0x5f8f719cff1cf5ed!2sJl.%20Raya%20Balongpanggang%20No.26%2C%20Wates%2C%20Kedungpring%2C%20Kec.%20Balongpanggang%2C%20Kabupaten%20Gresik%2C%20Jawa%20Timur%2061173!5e0!3m2!1sen!2sid!4v1760154177435!5m2!1sen!2sid"
                         style="border:0; min-height: 450px;" allowfullscreen="" loading="lazy"
@@ -251,7 +255,7 @@
             </div>
 
             <div class="col-lg-6 mb-4">
-                <div class="card border-0 shadow-sm h-100">
+                <div class="card border-0 shadow-sm h-100 contact-card-no-hover">
                     <div class="card-body p-4 p-lg-5 d-flex flex-column justify-content-center"
                         style="background: linear-gradient(135deg, #F5E6D3 0%, #E8D4B8 100%);">
 
@@ -260,7 +264,7 @@
                         </h3>
 
                         <!-- Address -->
-                        <div class="d-flex mb-4 p-3 bg-white rounded-3 shadow-sm">
+                        <div class="d-flex mb-4 p-3 bg-white rounded-3 shadow-sm contact-info-item">
                             <div class="flex-shrink-0">
                                 <div class="rounded-circle d-flex align-items-center justify-content-center"
                                     style="width: 50px; height: 50px; background-color: #D4AF88;">
@@ -277,7 +281,7 @@
                         </div>
 
                         <!-- Operating Hours -->
-                        <div class="d-flex mb-4 p-3 bg-white rounded-3 shadow-sm">
+                        <div class="d-flex mb-4 p-3 bg-white rounded-3 shadow-sm contact-info-item">
                             <div class="flex-shrink-0">
                                 <div class="rounded-circle d-flex align-items-center justify-content-center"
                                     style="width: 50px; height: 50px; background-color: #D4AF88;">
@@ -294,7 +298,7 @@
                         </div>
 
                         <!-- Social Media Buttons -->
-                        <div class="d-flex mb-3 p-3 bg-white rounded-3 shadow-sm">
+                        <div class="d-flex mb-3 p-3 bg-white rounded-3 shadow-sm contact-info-item">
                             <div class="flex-shrink-0">
                                 <div class="rounded-circle d-flex align-items-center justify-content-center"
                                     style="width: 50px; height: 50px; background-color: #D4AF88;">
@@ -306,15 +310,16 @@
                                 <div class="d-grid gap-2">
                                     <a href="https://wa.me/6281332227289?text=Hallo!%20Saya%20ingin%20memesan%20produk%20Vanilla%20Bakery"
                                         target="_blank"
-                                        class="btn btn-success d-flex align-items-center justify-content-center gap-2 shadow-sm">
-                                        <i class="bi bi-whatsapp fs-5"></i>
-                                        <span class="fw-medium">WhatsApp Us</span>
+                                        class="btn btn-hover d-flex align-items-center justify-content-center gap-2 shadow-sm"
+                                        style="background-color: #D4AF88; border: none;">
+                                        <i class="bi bi-whatsapp fs-5 text-white"></i>
+                                        <span class="fw-medium text-white">WhatsApp Us</span>
                                     </a>
                                     <a href="https://www.instagram.com/vanillabakery777" target="_blank"
-                                        class="btn text-white d-flex align-items-center justify-content-center gap-2 shadow-sm"
-                                        style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);">
-                                        <i class="bi bi-instagram fs-5"></i>
-                                        <span class="fw-medium">Follow Us</span>
+                                        class="btn btn-hover d-flex align-items-center justify-content-center gap-2 shadow-sm"
+                                        style="background-color: #D4AF88; border: none;">
+                                        <i class="bi bi-instagram fs-5 text-white"></i>
+                                        <span class="fw-medium text-white">Follow Us</span>
                                     </a>
                                 </div>
                             </div>
@@ -324,6 +329,5 @@
             </div>
         </div>
     </div>
-
 
 @endsection

@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 @section('title', 'Our Products')
 @section('content')
-    <link rel="stylesheet" href="css/products.css">
+    <link rel="stylesheet" href="{{ asset('css/products.css') }}">
     <!-- Hero Section -->
     <div class="bg-gradient py-5 mb-5 rounded-bottom-5">
         <div class="container text-center">
@@ -18,136 +18,342 @@
     </div>
 
     <div class="container mb-5">
-        <!-- Filter/Category Section -->
+        <!-- Search and View Toggle Section -->
         <div class="row mb-4">
             <div class="col-12">
-                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
-                    <div>
-                        <h5 class="mb-0" style="color: #2C2C2C;">
-                            <i class="bi bi-grid-3x3-gap-fill me-2" style="color: #D4AF88;"></i>
-                            All Products ({{ count($products) }})
-                        </h5>
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+                    <!-- Search Bar -->
+                    <div class="flex-grow-1" style="max-width: 500px;">
+                        <form action="{{ route('products.index') }}" method="GET" class="position-relative">
+                            <input type="hidden" name="category" value="{{ $selectedCategory }}">
+                            <input type="hidden" name="view" value="{{ $viewMode }}">
+                            <input type="text" 
+                                   name="search" 
+                                   class="form-control form-control-lg rounded-pill ps-5 shadow-sm" 
+                                   placeholder="Search products..."
+                                   value="{{ $searchTerm }}"
+                                   style="border: 2px solid #D4AF88;">
+                            <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-4" 
+                               style="color: #D4AF88; font-size: 1.2rem;"></i>
+                            @if($searchTerm)
+                                <a href="{{ route('products.index', ['category' => $selectedCategory, 'view' => $viewMode]) }}" 
+                                   class="position-absolute top-50 end-0 translate-middle-y me-4 text-muted">
+                                    <i class="bi bi-x-circle-fill fs-5"></i>
+                                </a>
+                            @endif
+                        </form>
                     </div>
-                    <div class="btn-group" role="group" aria-label="View toggle">
-                        <button type="button" class="btn btn-sm active" 
-                                style="background-color: #D4AF88; color: white; border: none;">
-                            <i class="bi bi-grid-3x3"></i> Grid
-                        </button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">
-                            <i class="bi bi-list"></i> List
-                        </button>
+                    
+                    <!-- View Toggle Buttons -->
+                    <div class="btn-group shadow-sm" role="group">
+                        <a href="{{ route('products.index', ['category' => $selectedCategory, 'search' => $searchTerm, 'view' => 'grid']) }}" 
+                           class="btn {{ $viewMode === 'grid' ? 'btn-primary' : 'btn-outline-secondary' }}"
+                           style="{{ $viewMode === 'grid' ? 'background-color: #D4AF88; border-color: #D4AF88;' : '' }}">
+                            <i class="bi bi-grid-3x3-gap-fill"></i> Grid
+                        </a>
+                        <a href="{{ route('products.index', ['category' => $selectedCategory, 'search' => $searchTerm, 'view' => 'list']) }}" 
+                           class="btn {{ $viewMode === 'list' ? 'btn-primary' : 'btn-outline-secondary' }}"
+                           style="{{ $viewMode === 'list' ? 'background-color: #D4AF88; border-color: #D4AF88;' : '' }}">
+                            <i class="bi bi-list-ul"></i> List
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Products Grid -->
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-            @foreach ($products as $product)
-                <div class="col">
-                    <div class="card h-100 border-0 shadow-sm product-card" 
-                         data-aos="fade-up" 
-                         data-aos-delay="{{ $loop->index * 100 }}">
-                        
-                        <!-- Product Image -->
-                        <div class="position-relative overflow-hidden rounded-top-3" 
-                             style="background-color: #F5E6D3; height: 280px;">
-                            
-                            @if(isset($product['imagePath']) && $product['imagePath'])
-                                @php
-                                    $cleanPath = str_replace('images/', '', $product['imagePath']);
-                                    $cleanPath = str_replace('storage/', '', $cleanPath);
-                                    
-                                    $storageExists = Storage::disk('public')->exists('images/' . $cleanPath);
-                                    $publicExists = file_exists(public_path('images/' . $cleanPath));
-                                    
-                                    if ($storageExists) {
-                                        $imageSrc = asset('storage/images/' . $cleanPath);
-                                    } elseif ($publicExists) {
-                                        $imageSrc = asset('images/' . $cleanPath);
-                                    } else {
-                                        $imageSrc = null;
-                                    }
-                                @endphp
-                                
-                                @if($imageSrc)
-                                    <img src="{{ $imageSrc }}"
-                                         class="card-img-top h-100 w-100 product-image"
-                                         alt="{{ $product['name'] }}"
-                                         style="object-fit: cover; transition: transform 0.3s ease;">
-                                @else
-                                    <div class="d-flex align-items-center justify-content-center h-100">
-                                        <i class="bi bi-image display-1" style="color: #D4AF88;"></i>
-                                    </div>
-                                @endif
-                            @else
-                                <div class="d-flex align-items-center justify-content-center h-100">
-                                    <i class="bi bi-image display-1" style="color: #D4AF88;"></i>
-                                </div>
-                            @endif
-
-                            <!-- Category Badges -->
-                            <div class="position-absolute top-0 start-0 p-2">
-                                @foreach($product->categories as $category)
-                                    <span class="badge me-1 mb-1" style="background-color: #D4AF88;">
-                                        {{ $category->name }}
-                                    </span>
-                                @endforeach
-                            </div>
-
-                            <!-- Overlay on hover -->
-                            <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center product-overlay"
-                                 style="background: rgba(0, 0, 0, 0.7); opacity: 0; transition: opacity 0.3s ease;">
-                                <a href="/products/{{ $product['id'] }}" 
-                                   class="btn btn-light btn-lg rounded-pill px-4 shadow-lg">
-                                    <i class="bi bi-eye me-2"></i>View Details
-                                </a>
-                            </div>
-                        </div>
-
-                        <!-- Product Info -->
-                        <div class="card-body d-flex flex-column bg-light">
-                            <h5 class="card-title fw-bold mb-2 text-truncate" 
-                                style="color: #2C2C2C; font-family: Georgia, serif;">
-                                {{ $product['name'] }}
-                            </h5>
-                            
-                            @if(isset($product['description']))
-                                <p class="card-text text-muted small mb-3 flex-grow-1" style="line-height: 1.6;">
-                                    {{ Str::limit($product['description'], 80) }}
-                                </p>
-                            @endif
-
-                            <div class="mt-auto">
-                                <!-- Price and Stock -->
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <div class="bg-white rounded-3 p-2 shadow-sm">
-                                        <small class="text-muted d-block">Price</small>
-                                        <span class="h5 mb-0 fw-bold" style="color: #D4AF88;">
-                                            Rp {{ number_format($product['price'], 0, ',', '.') }}
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <!-- Order Button -->
-                                <a href="/products/{{ $product['id'] }}" 
-                                   class="btn w-100 btn-hover shadow-sm"
-                                   style="background-color: #D4AF88; color: white; border: none;">
-                                    <i class="bi bi-cart-plus me-2"></i>Order Now
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+        <!-- Category Filter Section -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+                    <h5 class="mb-0" style="color: #2C2C2C;">
+                        <i class="bi bi-funnel-fill me-2" style="color: #D4AF88;"></i>
+                        Filter by Category
+                    </h5>
+                    <span class="badge rounded-pill px-3 py-2" style="background-color: #D4AF88;">
+                        {{ count($products) }} {{ count($products) === 1 ? 'Product' : 'Products' }} Found
+                    </span>
                 </div>
-            @endforeach
+
+                <!-- Category Buttons -->
+                <div class="d-flex flex-wrap gap-2 mb-4">
+                    <a href="{{ route('products.index', ['search' => $searchTerm, 'view' => $viewMode]) }}" 
+                       class="btn filter-btn {{ !$selectedCategory || $selectedCategory === 'all' ? 'active' : '' }}"
+                       style="{{ !$selectedCategory || $selectedCategory === 'all' ? 'background-color: #D4AF88; color: white;' : 'background-color: white; color: #2C2C2C; border: 2px solid #D4AF88;' }}">
+                        <i class="bi bi-grid-3x3-gap-fill me-2"></i>
+                        All Products
+                        <span class="badge ms-2" style="{{ !$selectedCategory || $selectedCategory === 'all' ? 'background-color: rgba(255,255,255,0.3);' : 'background-color: #D4AF88; color: white;' }}">
+                            {{ \App\Models\Product::count() }}
+                        </span>
+                    </a>
+
+                    @foreach($categories as $category)
+                        <a href="{{ route('products.index', ['category' => $category->id, 'search' => $searchTerm, 'view' => $viewMode]) }}" 
+                           class="btn filter-btn {{ $selectedCategory == $category->id ? 'active' : '' }}"
+                           style="{{ $selectedCategory == $category->id ? 'background-color: #D4AF88; color: white;' : 'background-color: white; color: #2C2C2C; border: 2px solid #D4AF88;' }}">
+                            <i class="bi bi-tag-fill me-2"></i>
+                            {{ $category->name }}
+                            <span class="badge ms-2" style="{{ $selectedCategory == $category->id ? 'background-color: rgba(255,255,255,0.3);' : 'background-color: #D4AF88; color: white;' }}">
+                                {{ $category->products_count }}
+                            </span>
+                        </a>
+                    @endforeach
+                </div>
+
+                <!-- Active Filters Display -->
+                @if($selectedCategory && $selectedCategory !== 'all' || $searchTerm)
+                    <div class="alert alert-light border-0 shadow-sm d-flex justify-content-between align-items-center flex-wrap gap-2" 
+                         style="background: linear-gradient(135deg, #F5E6D3 0%, #E8D4B8 100%);">
+                        <div>
+                            <i class="bi bi-funnel-fill me-2" style="color: #D4AF88;"></i>
+                            <strong>Active Filters:</strong>
+                            @if($searchTerm)
+                                <span class="badge bg-dark mx-1">
+                                    <i class="bi bi-search me-1"></i>{{ $searchTerm }}
+                                </span>
+                            @endif
+                            @if($selectedCategory && $selectedCategory !== 'all')
+                                @php
+                                    $activeCategory = $categories->firstWhere('id', $selectedCategory);
+                                @endphp
+                                @if($activeCategory)
+                                    <span class="badge mx-1" style="background-color: #D4AF88;">
+                                        <i class="bi bi-tag-fill me-1"></i>{{ $activeCategory->name }}
+                                    </span>
+                                @endif
+                            @endif
+                        </div>
+                        <a href="{{ route('products.index', ['view' => $viewMode]) }}" class="btn btn-sm btn-dark">
+                            <i class="bi bi-x-circle me-1"></i>Clear All Filters
+                        </a>
+                    </div>
+                @endif
+            </div>
         </div>
 
-        <!-- Empty State -->
-        @if(count($products) === 0)
-            <div class="text-center py-5">
-                <i class="bi bi-basket display-1 text-muted opacity-50"></i>
-                <h3 class="mt-4 text-muted">No products available</h3>
-                <p class="text-muted">Please check back later for our delicious baked goods!</p>
+        <!-- Products Grid/List View -->
+        @if(count($products) > 0)
+            @if($viewMode === 'grid')
+                <!-- Grid View -->
+                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                    @foreach ($products as $product)
+                        <div class="col" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+                            <div class="card h-100 product-card shadow-sm border-0">
+                                <!-- Product Image -->
+                                <div class="position-relative overflow-hidden" style="height: 250px; background: linear-gradient(135deg, #F5E6D3 0%, #E8D4B8 100%);">
+                                    @if ($product->imagePath)
+                                        @php
+                                            $cleanPath = str_replace('images/', '', $product->imagePath);
+                                            $cleanPath = str_replace('storage/', '', $cleanPath);
+                                            
+                                            $storageExists = Storage::disk('public')->exists('images/' . $cleanPath);
+                                            $publicExists = file_exists(public_path('images/' . $cleanPath));
+                                            
+                                            if ($storageExists) {
+                                                $imageSrc = asset('storage/images/' . $cleanPath);
+                                            } elseif ($publicExists) {
+                                                $imageSrc = asset('images/' . $cleanPath);
+                                            } else {
+                                                $imageSrc = null;
+                                            }
+                                        @endphp
+                                        
+                                        @if($imageSrc)
+                                            <img src="{{ $imageSrc }}" 
+                                                 class="product-image w-100 h-100" 
+                                                 alt="{{ $product->name }}"
+                                                 style="object-fit: cover;">
+                                        @else
+                                            <div class="w-100 h-100 d-flex align-items-center justify-content-center">
+                                                <i class="bi bi-image display-3" style="color: #D4AF88;"></i>
+                                            </div>
+                                        @endif
+                                    @else
+                                        <div class="w-100 h-100 d-flex align-items-center justify-content-center">
+                                            <i class="bi bi-image display-3" style="color: #D4AF88;"></i>
+                                        </div>
+                                    @endif
+                                    
+                                    <!-- Category Badges -->
+                                    <div class="position-absolute top-0 start-0 p-2">
+                                        @foreach($product->categories as $category)
+                                            <span class="badge me-1 mb-1" style="background-color: #D4AF88;">
+                                                {{ $category->name }}
+                                            </span>
+                                        @endforeach
+                                    </div>
+
+                                    <!-- Overlay on Hover -->
+                                    <div class="product-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+                                         style="background: linear-gradient(135deg, rgba(212, 175, 136, 0.95) 0%, rgba(193, 154, 107, 0.95) 100%); opacity: 0;">
+                                        <a href="/products/{{ $product->id }}" 
+                                           class="btn btn-light btn-lg rounded-pill px-4 shadow">
+                                            <i class="bi bi-eye-fill me-2"></i>View Details
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- Product Info -->
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title fw-bold mb-2" style="color: #2C2C2C; font-family: Georgia, serif;">
+                                        {{ $product->name }}
+                                    </h5>
+                                    <p class="card-text text-muted flex-grow-1 mb-3" style="font-size: 0.95rem; line-height: 1.6;">
+                                        {{ Str::limit($product->description, 100) }}
+                                    </p>
+                                    
+                                    <!-- Price -->
+                                    <div class="d-flex align-items-center justify-content-between mb-3">
+                                        <div class="price-tag">
+                                            <small class="d-block mb-1" style="font-size: 0.75rem; color: rgba(255,255,255,0.8);">Starting from</small>
+                                            <h5 class="mb-0 fw-bold text-white">
+                                                Rp {{ number_format($product->price, 0, ',', '.') }}
+                                            </h5>
+                                        </div>
+                                    </div>
+
+                                    <!-- Action Buttons -->
+                                    <div class="d-grid gap-2">
+                                        <a href="/products/{{ $product->id }}" 
+                                           class="btn btn-hover shadow-sm"
+                                           style="background-color: #D4AF88; color: white; border: none;">
+                                            <i class="bi bi-eye-fill me-2"></i>View Details
+                                        </a>
+                                        <a href="https://wa.me/6281332227289?text=Hi!%20I'm%20interested%20in%20{{ urlencode($product->name) }}" 
+                                           target="_blank"
+                                           class="btn btn-hover shadow-sm"
+                                           style="background-color: #D4AF88; border: none;">
+                                            <i class="bi bi-whatsapp me-2 text-white"></i>
+                                            <span class="text-white">Order on WhatsApp</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                <!-- List View -->
+                <div class="row g-3">
+                    @foreach ($products as $product)
+                        <div class="col-12" data-aos="fade-up" data-aos-delay="{{ $loop->index * 50 }}">
+                            <div class="card product-card-list shadow-sm border-0">
+                                <div class="row g-0">
+                                    <!-- Product Image -->
+                                    <div class="col-md-3 col-lg-2">
+                                        <div class="position-relative overflow-hidden h-100" style="min-height: 180px; background: linear-gradient(135deg, #F5E6D3 0%, #E8D4B8 100%);">
+                                            @if ($product->imagePath)
+                                                @php
+                                                    $cleanPath = str_replace('images/', '', $product->imagePath);
+                                                    $cleanPath = str_replace('storage/', '', $cleanPath);
+                                                    
+                                                    $storageExists = Storage::disk('public')->exists('images/' . $cleanPath);
+                                                    $publicExists = file_exists(public_path('images/' . $cleanPath));
+                                                    
+                                                    if ($storageExists) {
+                                                        $imageSrc = asset('storage/images/' . $cleanPath);
+                                                    } elseif ($publicExists) {
+                                                        $imageSrc = asset('images/' . $cleanPath);
+                                                    } else {
+                                                        $imageSrc = null;
+                                                    }
+                                                @endphp
+                                                
+                                                @if($imageSrc)
+                                                    <img src="{{ $imageSrc }}" 
+                                                         class="w-100 h-100" 
+                                                         alt="{{ $product->name }}"
+                                                         style="object-fit: cover;">
+                                                @else
+                                                    <div class="w-100 h-100 d-flex align-items-center justify-content-center">
+                                                        <i class="bi bi-image fs-1" style="color: #D4AF88;"></i>
+                                                    </div>
+                                                @endif
+                                            @else
+                                                <div class="w-100 h-100 d-flex align-items-center justify-content-center">
+                                                    <i class="bi bi-image fs-1" style="color: #D4AF88;"></i>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Product Info -->
+                                    <div class="col-md-9 col-lg-10">
+                                        <div class="card-body d-flex flex-column h-100">
+                                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                                <div class="flex-grow-1">
+                                                    <h5 class="card-title fw-bold mb-2" style="color: #2C2C2C; font-family: Georgia, serif;">
+                                                        {{ $product->name }}
+                                                    </h5>
+                                                    <div class="mb-2">
+                                                        @foreach($product->categories as $category)
+                                                            <span class="badge me-1" style="background-color: #D4AF88;">
+                                                                {{ $category->name }}
+                                                            </span>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                                <div class="text-end ms-3">
+                                                    <small class="text-muted d-block mb-1">Starting from</small>
+                                                    <h4 class="mb-0 fw-bold" style="color: #D4AF88;">
+                                                        Rp {{ number_format($product->price, 0, ',', '.') }}
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                            
+                                            <p class="card-text text-muted mb-3" style="line-height: 1.6;">
+                                                {{ Str::limit($product->description, 200) }}
+                                            </p>
+                                            
+                                            <!-- Action Buttons -->
+                                            <div class="d-flex gap-2 mt-auto">
+                                                <a href="/products/{{ $product->id }}" 
+                                                   class="btn btn-hover shadow-sm"
+                                                   style="background-color: #D4AF88; color: white; border: none;">
+                                                    <i class="bi bi-eye-fill me-2"></i>View Details
+                                                </a>
+                                                <a href="https://wa.me/6281332227289?text=Hi!%20I'm%20interested%20in%20{{ urlencode($product->name) }}" 
+                                                   target="_blank"
+                                                   class="btn btn-hover shadow-sm"
+                                                   style="background-color: #D4AF88; border: none;">
+                                                    <i class="bi bi-whatsapp me-2 text-white"></i>
+                                                    <span class="text-white">Order Now</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @endif
+        @else
+            <!-- Empty State -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex flex-column align-items-center justify-content-center text-center py-5 my-5" style="min-height: 400px;">
+                        <div class="mb-4">
+                            <i class="bi bi-search display-1 text-muted opacity-50"></i>
+                        </div>
+                        <h3 class="mt-4 text-muted fw-bold">
+                            No products found
+                        </h3>
+                        <p class="text-muted lead mb-4">
+                            @if($searchTerm)
+                                No results for "{{ $searchTerm }}". Try different keywords or clear filters.
+                            @elseif($selectedCategory && $selectedCategory !== 'all')
+                                No products found in this category. Try selecting a different category.
+                            @else
+                                Please check back later for our delicious baked goods!
+                            @endif
+                        </p>
+                        <a href="{{ route('products.index', ['view' => $viewMode]) }}" 
+                           class="btn btn-lg mt-3 px-5 rounded-pill shadow" 
+                           style="background-color: #D4AF88; color: white;">
+                            <i class="bi bi-arrow-counterclockwise me-2"></i>Clear All Filters
+                        </a>
+                    </div>
+                </div>
             </div>
         @endif
     </div>
@@ -157,24 +363,41 @@
         <div class="rounded-4 shadow-lg py-5 px-4" 
              style="background: linear-gradient(135deg, #F5E6D3 0%, #E8D4B8 100%);">
             <div class="text-center">
-                <h2 class="mb-3 fw-bold" style="font-family: Georgia, serif; color: #2C2C2C;">
-                    Can't Decide?
-                </h2>
-                <p class="lead mb-4" style="color: #4A4A4A;">
-                    Visit our store and try our samples!
+                <h3 class="fw-bold mb-3" style="font-family: Georgia, serif; color: #2C2C2C;">
+                    <i class="bi bi-heart-fill me-2" style="color: #D4AF88;"></i>
+                    Can't find what you're looking for?
+                </h3>
+                <p class="lead text-muted mb-4">
+                    Contact us directly for custom orders and special requests!
                 </p>
-                <div class="d-flex justify-content-center gap-3 flex-wrap">
-                    <a href="/#contact" 
-                       class="btn btn-dark btn-lg px-5 py-3 shadow">
-                        <i class="bi bi-geo-alt-fill me-2"></i>Visit Us
+                <div class="d-flex gap-3 justify-content-center flex-wrap">
+                    <a href="https://wa.me/6281332227289?text=Hi!%20I'd%20like%20to%20make%20a%20custom%20order" 
+                       target="_blank"
+                       class="btn btn-lg px-5 shadow social-btn"
+                       style="background-color: #D4AF88; border: none;">
+                        <i class="bi bi-whatsapp me-2 text-white"></i>
+                        <span class="text-white">WhatsApp Us</span>
                     </a>
-                    <a href="https://wa.me/6281332227289?text=Hallo!%20Saya%20ingin%20memesan%20produk%20Vanilla%20Bakery" 
-                       class="btn btn-lg px-5 py-3 shadow"
-                       style="background-color: #25D366; color: white; border: none;">
-                        <i class="bi bi-whatsapp me-2"></i>Order via WhatsApp
+                    <a href="https://www.instagram.com/vanillabakery777" 
+                       target="_blank"
+                       class="btn btn-lg px-5 shadow social-btn"
+                       style="background-color: #D4AF88; border: none;">
+                        <i class="bi bi-instagram me-2 text-white"></i>
+                        <span class="text-white">Follow Us</span>
                     </a>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 600,
+            easing: 'ease-out',
+            once: true
+        });
+    </script>
 @endsection

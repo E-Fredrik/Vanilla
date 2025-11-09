@@ -35,13 +35,13 @@
                 <h6 class="fw-bold mb-3" style="color: #2C2C2C;">Connect With Us</h6>
                 <div class="d-flex gap-3 justify-content-center justify-content-lg-start">
                     <a href="https://wa.me/6281332227289?text=Hallo!%20Saya%20ingin%20memesan%20produk%20Vanilla%20Bakery" target="_blank" 
-                       class="btn btn-sm btn-outline-success rounded-circle d-flex align-items-center justify-content-center"
-                       style="width: 40px; height: 40px;">
-                        <i class="bi bi-whatsapp"></i>
+                       class="btn btn-sm rounded-circle d-flex align-items-center justify-content-center"
+                       style="width: 40px; height: 40px; background-color: #D4AF88;">
+                        <i class="bi bi-whatsapp text-white"></i>
                     </a>
                     <a href="https://www.instagram.com/vanillabakery777" target="_blank"
                        class="btn btn-sm rounded-circle d-flex align-items-center justify-content-center text-white"
-                       style="width: 40px; height: 40px; background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);">
+                       style="width: 40px; height: 40px; background-color: #D4AF88;"">
                         <i class="bi bi-instagram"></i>
                     </a>
                 </div>
