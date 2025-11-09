@@ -72,10 +72,29 @@
                                         @foreach($recentProducts as $product)
                                             <tr>
                                                 <td class="d-none d-md-table-cell">
-                                                    @if($product->imagePath && Storage::disk('public')->exists($product->imagePath))
-                                                        <img src="{{ asset('storage/' . $product->imagePath) }}" 
-                                                             alt="{{ $product->name }}" 
-                                                             class="product-image-thumb">
+                                                    @if($product->imagePath)
+                                                        @php
+                                                            $imageName = basename($product->imagePath);
+                                                            
+                                                            if(Storage::disk('public')->exists('images/' . $imageName)) {
+                                                                $imageSrc = asset('storage/images/' . $imageName);
+                                                            } elseif(file_exists(public_path('images/' . $imageName))) {
+                                                                $imageSrc = asset('images/' . $imageName);
+                                                            } else {
+                                                                $imageSrc = null;
+                                                            }
+                                                        @endphp
+                                                        
+                                                        @if($imageSrc)
+                                                            <img src="{{ $imageSrc }}" 
+                                                                 alt="{{ $product->name }}" 
+                                                                 class="product-image-thumb">
+                                                        @else
+                                                            <div class="product-image-thumb d-flex align-items-center justify-content-center" 
+                                                                 style="background: linear-gradient(135deg, #F5E6D3 0%, #E8D4B8 100%);">
+                                                                <i class="bi bi-image" style="color: #D4AF88;"></i>
+                                                            </div>
+                                                        @endif
                                                     @else
                                                         <div class="product-image-thumb d-flex align-items-center justify-content-center" 
                                                              style="background: linear-gradient(135deg, #F5E6D3 0%, #E8D4B8 100%);">

@@ -105,14 +105,12 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        // Check if category has products
-        if ($category->products()->count() > 0) {
-            return back()->withErrors(['error' => 'Cannot delete category with existing products. Please reassign or delete the products first.']);
-        }
+        // Detach all products from this category instead of blocking deletion
+        $category->products()->detach();
 
         $category->delete();
 
         return redirect()->route('admin.categories.index')
-            ->with('success', 'Category deleted successfully.');
+            ->with('success', 'Category deleted successfully. Products have been uncategorized.');
     }
 }

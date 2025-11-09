@@ -84,11 +84,10 @@
                                                 </a>
                                                 <form action="{{ route('admin.categories.destroy', $category) }}"
                                                     method="POST" class="d-inline"
-                                                    onsubmit="return confirm('Are you sure you want to delete this category?');">
+                                                    onsubmit="return confirm('Are you sure? This will remove this category from {{ $category->products_count }} product(s).');">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger" title="Delete"
-                                                        {{ $category->products_count > 0 ? 'disabled' : '' }}>
+                                                    <button type="submit" class="btn btn-sm btn-danger" title="Delete">
                                                         <i class="bi bi-trash"></i>
                                                     </button>
                                                 </form>

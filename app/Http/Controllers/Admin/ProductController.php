@@ -142,10 +142,15 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        // Delete image if exists
         if ($product->imagePath && Storage::disk('public')->exists($product->imagePath)) {
             Storage::disk('public')->delete($product->imagePath);
         }
 
+        // Detach all categories before deletion
+        $product->categories()->detach();
+        
+        // Delete the product
         $product->delete();
 
         return redirect()->route('admin.products.index')
