@@ -1,6 +1,15 @@
-/* Jumbotron Styles */
+/* Jumbotron Carousel Container */
+#jumbotronCarousel {
+    margin-bottom: 0;
+}
+
+#jumbotronCarousel .carousel-item {
+    height: 600px;
+    transition: transform 1.5s ease-in-out, opacity 1.5s ease-in-out;
+}
+
+/* Base Jumbotron Styles */
 .jumbotron {
-    background-image: url("/storage/images/jumbotron.jpeg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -10,12 +19,29 @@
     text-align: center;
     position: relative;
     min-height: 600px;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.jumbotron::before {
+/* Individual Jumbotron Backgrounds - CORRECTED PATHS */
+.jumbotron-1 {
+    background-image: url('../images/Jumbotron_1.jpg');
+}
+
+.jumbotron-2 {
+    background-image: url('../images/Jumbotron_2.jpg');
+}
+
+.jumbotron-3 {
+    background-image: url('../images/Jumbotron_3.jpg');
+}
+
+/* Dark overlay for text readability */
+.jumbotron-1::before,
+.jumbotron-2::before,
+.jumbotron-3::before {
     content: "";
     position: absolute;
     top: 0;
@@ -67,6 +93,7 @@
     transition: all 0.4s ease;
     text-transform: uppercase;
     letter-spacing: 1px;
+    padding: 1rem 3rem !important;
     box-shadow: 0 8px 25px rgba(212, 175, 136, 0.4);
 }
 
@@ -74,6 +101,78 @@
     transform: translateY(-5px) scale(1.05);
     box-shadow: 0 12px 35px rgba(212, 175, 136, 0.6);
     background-color: #C19A6B !important;
+}
+
+/* Carousel Indicators for Jumbotron */
+#jumbotronCarousel .carousel-indicators {
+    bottom: 30px;
+    z-index: 3;
+}
+
+#jumbotronCarousel .carousel-indicators button {
+    width: 50px;
+    height: 5px;
+    border-radius: 3px;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: none;
+    margin: 0 5px;
+    transition: all 0.3s ease;
+}
+
+#jumbotronCarousel .carousel-indicators button.active {
+    background-color: #D4AF88;
+    width: 70px;
+    box-shadow: 0 0 10px rgba(212, 175, 136, 0.8);
+}
+
+/* Enhanced Carousel Fade Animation with Progress Bar Effect */
+#jumbotronCarousel .carousel-indicators button.active {
+    animation: progressBar 5s linear;
+}
+
+@keyframes progressBar {
+    from {
+        width: 50px;
+        background-color: rgba(255, 255, 255, 0.5);
+    }
+    to {
+        width: 70px;
+        background-color: #D4AF88;
+    }
+}
+
+/* Smooth Fade Transitions */
+#jumbotronCarousel .carousel-item {
+    transition: opacity 1.5s ease-in-out;
+}
+
+#jumbotronCarousel .carousel-item.active,
+#jumbotronCarousel .carousel-item-next,
+#jumbotronCarousel .carousel-item-prev {
+    display: block;
+}
+
+#jumbotronCarousel .carousel-item-next:not(.carousel-item-start),
+#jumbotronCarousel .carousel-item-prev:not(.carousel-item-end) {
+    opacity: 0;
+}
+
+#jumbotronCarousel .carousel-item.active {
+    opacity: 1;
+}
+
+/* Ken Burns Zoom Effect on Background Images */
+.jumbotron {
+    animation: kenBurns 20s ease-in-out infinite alternate;
+}
+
+@keyframes kenBurns {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(1.1);
+    }
 }
 
 /* Carousel Enhancements */
@@ -102,6 +201,9 @@
     width: 12px;
     height: 12px;
     border-radius: 50%;
+    background-color: rgba(212, 175, 136, 0.5);
+    border: none;
+    margin: 0 5px;
     transition: all 0.3s ease;
 }
 
@@ -141,6 +243,8 @@
 #featuredProductsCarousel .carousel-control-prev-icon,
 #featuredProductsCarousel .carousel-control-next-icon {
     background-color: rgba(212, 175, 136, 0.9);
+    border-radius: 50%;
+    padding: 2rem !important;
     transition: all 0.3s ease;
 }
 
@@ -250,36 +354,66 @@
         width: 45px !important;
         height: 45px !important;
     }
-    
-    .testimonial-control-prev span i,
-    .testimonial-control-next span i {
-        font-size: 1.2rem !important;
-    }
 }
 
 @media (max-width: 768px) {
-    /* Featured Products - Keep small */
+    #jumbotronCarousel .carousel-item {
+        height: 400px;
+    }
+
+    .jumbotron {
+        padding: 6rem 1rem;
+        min-height: 400px;
+        background-attachment: scroll;
+        animation: none; /* Disable Ken Burns on mobile */
+    }
+    
+    .jumbotron h1 {
+        font-size: 3rem;
+    }
+    
+    .jumbotron p {
+        font-size: 1.3rem;
+    }
+    
+    .jumbotron .btn {
+        font-size: 1rem;
+        padding: 0.75rem 2rem !important;
+    }
+
+    #jumbotronCarousel .carousel-indicators {
+        bottom: 15px;
+    }
+
+    #jumbotronCarousel .carousel-indicators button {
+        width: 30px;
+        height: 4px;
+    }
+
+    #jumbotronCarousel .carousel-indicators button.active {
+        width: 50px;
+    }
+    
+    /* Featured Products - Smaller on mobile */
     #featuredProductsCarousel .carousel-control-prev-icon,
     #featuredProductsCarousel .carousel-control-next-icon {
         width: 28px !important;
         height: 28px !important;
+        background-color: rgba(212, 175, 136, 0.95) !important;
     }
     
-    #featuredProductsCarousel .carousel-control-prev {
-        left: 5px;
+    /* Testimonials - Smaller on mobile */
+    .testimonial-control-prev,
+    .testimonial-control-next {
+        opacity: 0.8;
     }
     
-    #featuredProductsCarousel .carousel-control-next {
-        right: 5px;
-    }
-    
-    /* Testimonials - Move inside on mobile */
     .testimonial-control-prev {
-        left: 10px !important;
+        left: 5px !important;
     }
     
     .testimonial-control-next {
-        right: 10px !important;
+        right: 5px !important;
     }
     
     .testimonial-control-prev span,
@@ -325,8 +459,16 @@ iframe {
 .badge {
     font-weight: 500;
     letter-spacing: 0.5px;
-    padding: 0.6rem 1.5rem !important;
-    box-shadow: 0 4px 15px rgba(212, 175, 136, 0.3);
+}
+
+/* Product Card Enhancements */
+.card {
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15) !important;
 }
 
 /* Button Enhancements - ONLY BUTTONS HOVER */
@@ -355,40 +497,6 @@ html {
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
-    .jumbotron {
-        padding: 6rem 1rem;
-        min-height: 400px;
-        background-attachment: scroll;
-    }
-    
-    .jumbotron h1 {
-        font-size: 3rem;
-    }
-    
-    .jumbotron p {
-        font-size: 1.3rem;
-    }
-    
-    .jumbotron .btn {
-        font-size: 1rem;
-        padding: 0.75rem 2rem !important;
-    }
-    
-    .carousel-control-prev-icon,
-    .carousel-control-next-icon {
-        padding: 1.5rem !important;
-    }
-    
-    iframe {
-        min-height: 300px;
-    }
-    
-    .col-md-6.position-relative .d-flex {
-        height: 350px !important;
-    }
-}
-
 @media (max-width: 576px) {
     .jumbotron h1 {
         font-size: 2.5rem;

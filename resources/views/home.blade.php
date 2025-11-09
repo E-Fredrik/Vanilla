@@ -3,16 +3,77 @@
 @section('content')
     <link rel="stylesheet" href="css/home.css">
 
-    <!-- Jumbotron Hero -->
-    <div class="jumbotron mb-0">
-        <div class="jumbotron-content container">
-            <h1 class="display-1 fw-bold mb-4 animate__animated animate__fadeInDown">Vanilla Bakery</h1>
-            <p class="lead fs-3 mb-4 animate__animated animate__fadeInUp">Wisata Bukit Mas C4-18</p>
-            <a href="/products"
-                class="btn btn-lg px-5 py-3 rounded-pill shadow-lg animate__animated animate__fadeInUp animate__delay-1s"
-                style="background-color: #D4AF88; color: white; border: none; transition: all 0.3s ease;">
-                <i class="bi bi-basket2-fill me-2"></i>Explore Our Products
-            </a>
+    <!-- Jumbotron Carousel Hero -->
+    <div id="jumbotronCarousel" 
+         class="carousel slide carousel-fade" 
+         data-bs-ride="carousel" 
+         data-bs-interval="5000"
+         data-bs-pause="false">
+        
+        <!-- Carousel Indicators -->
+        <div class="carousel-indicators">
+            <button type="button" 
+                    data-bs-target="#jumbotronCarousel" 
+                    data-bs-slide-to="0" 
+                    class="active" 
+                    aria-current="true" 
+                    aria-label="Slide 1"></button>
+            <button type="button" 
+                    data-bs-target="#jumbotronCarousel" 
+                    data-bs-slide-to="1" 
+                    aria-label="Slide 2"></button>
+            <button type="button" 
+                    data-bs-target="#jumbotronCarousel" 
+                    data-bs-slide-to="2" 
+                    aria-label="Slide 3"></button>
+        </div>
+
+        <!-- Carousel Inner -->
+        <div class="carousel-inner">
+            <!-- Slide 1 -->
+            <div class="carousel-item active">
+                <div class="jumbotron jumbotron-1">
+                    <div class="jumbotron-content container">
+                        <h1 class="display-1 fw-bold mb-4 animate__animated animate__fadeInDown">Vanilla Bakery</h1>
+                        <p class="lead fs-3 mb-4 animate__animated animate__fadeInUp">Wisata Bukit Mas C4-18</p>
+                        <a href="/products"
+                            class="btn btn-lg px-5 py-3 rounded-pill shadow-lg animate__animated animate__fadeInUp animate__delay-1s"
+                            style="background-color: #D4AF88; color: white; border: none; transition: all 0.3s ease;">
+                            <i class="bi bi-basket2-fill me-2"></i>Explore Our Products
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="carousel-item">
+                <div class="jumbotron jumbotron-2">
+                    <div class="jumbotron-content container">
+                        <h1 class="display-1 fw-bold mb-4 animate__animated animate__fadeInDown">Fresh Daily</h1>
+                        <p class="lead fs-3 mb-4 animate__animated animate__fadeInUp">Baked with Love & Passion</p>
+                        <a href="/products"
+                            class="btn btn-lg px-5 py-3 rounded-pill shadow-lg animate__animated animate__fadeInUp animate__delay-1s"
+                            style="background-color: #D4AF88; color: white; border: none; transition: all 0.3s ease;">
+                            <i class="bi bi-basket2-fill me-2"></i>View Our Selection
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="carousel-item">
+                <div class="jumbotron jumbotron-3">
+                    <div class="jumbotron-content container">
+                        <h1 class="display-1 fw-bold mb-4 animate__animated animate__fadeInDown">Premium Quality</h1>
+                        <p class="lead fs-3 mb-4 animate__animated animate__fadeInUp">Artisan Breads & Pastries</p>
+                        <a href="/products"
+                            class="btn btn-lg px-5 py-3 rounded-pill shadow-lg animate__animated animate__fadeInUp animate__delay-1s"
+                            style="background-color: #D4AF88; color: white; border: none; transition: all 0.3s ease;">
+                            <i class="bi bi-basket2-fill me-2"></i>Order Now
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

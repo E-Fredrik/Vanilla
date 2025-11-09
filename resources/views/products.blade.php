@@ -149,26 +149,10 @@
                                 <!-- Product Image -->
                                 <div class="position-relative overflow-hidden" style="height: 250px; background: linear-gradient(135deg, #F5E6D3 0%, #E8D4B8 100%);">
                                     @if ($product->imagePath)
-                                        @php
-                                            $cleanPath = str_replace('images/', '', $product->imagePath);
-                                            $cleanPath = str_replace('storage/', '', $cleanPath);
-                                            
-                                            $storageExists = Storage::disk('public')->exists('images/' . $cleanPath);
-                                            $publicExists = file_exists(public_path('images/' . $cleanPath));
-                                            
-                                            if ($storageExists) {
-                                                $imageSrc = asset('storage/images/' . $cleanPath);
-                                            } elseif ($publicExists) {
-                                                $imageSrc = asset('images/' . $cleanPath);
-                                            } else {
-                                                $imageSrc = null;
-                                            }
-                                        @endphp
-                                        
-                                        @if($imageSrc)
-                                            <img src="{{ $imageSrc }}" 
-                                                 class="product-image w-100 h-100" 
-                                                 alt="{{ $product->name }}"
+                                        @if(file_exists(public_path('images/' . $product->imagePath)))
+                                            <img src="{{ asset('images/' . $product->imagePath) }}" 
+                                                 alt="{{ $product->name }}" 
+                                                 class="product-image w-100 h-100"
                                                  style="object-fit: cover;">
                                         @else
                                             <div class="w-100 h-100 d-flex align-items-center justify-content-center">
