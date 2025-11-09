@@ -2,11 +2,15 @@
 @section('title', 'About Us - Vanilla Bakery')
 @section('content')
     <link rel = "stylesheet" href = "css/aboutUs.css">
+    
+    <!-- AOS CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
     <!-- Hero Section -->
     <section class="bg-light py-5" style="background-color: #F5E6D3 !important;">
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-lg-6 mb-4 mb-lg-0">
+                <div class="col-lg-6 mb-4 mb-lg-0" data-aos="fade-right">
                     <span class="badge rounded-pill px-4 py-2 mb-3" style="background-color: #D4AF88;">
                         <i class="bi bi-info-circle-fill me-2"></i>About Us
                     </span>
@@ -22,7 +26,7 @@
                         we pour our hearts into creating baked goods that bring joy to our customers.
                     </p>
                 </div>
-                <div class="col-lg-6">
+                <div class="col-lg-6" data-aos="fade-left" data-aos-delay="100">
                     @php
                         $aboutImagePath = null;
                         if (Storage::disk('public')->exists('images/jumbotron.jpeg')) {
@@ -50,7 +54,7 @@
     <section class="py-5">
         <div class="container">
             <div class="row mb-5">
-                <div class="col-lg-8 mx-auto text-center">
+                <div class="col-lg-8 mx-auto text-center" data-aos="fade-down">
                     <span class="badge rounded-pill px-4 py-2 mb-3" style="background-color: #D4AF88;">
                         <i class="bi bi-book-fill me-2"></i>Our Journey
                     </span>
@@ -64,7 +68,7 @@
             </div>
 
             <div class="row g-4">
-                <div class="col-md-6">
+                <div class="col-md-6" data-aos="fade-up" data-aos-delay="0">
                     <div class="card h-100 border-0 shadow-sm hover-lift">
                         <div class="card-body p-4">
                             <div class="d-flex align-items-center mb-3">
@@ -83,7 +87,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
                     <div class="card h-100 border-0 shadow-sm hover-lift">
                         <div class="card-body p-4">
                             <div class="d-flex align-items-center mb-3">
@@ -108,7 +112,7 @@
     <section class="py-5" style="background-color: #F5E6D3;">
         <div class="container">
             <div class="row mb-5">
-                <div class="col-lg-8 mx-auto text-center">
+                <div class="col-lg-8 mx-auto text-center" data-aos="fade-down">
                     <span class="badge rounded-pill px-4 py-2 mb-3" style="background-color: white; color: #D4AF88;">
                         <i class="bi bi-gem me-2"></i>Core Values
                     </span>
@@ -120,7 +124,7 @@
             </div>
 
             <div class="row g-4">
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="0">
                     <div class="text-center p-4 hover-lift">
                         <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3 shadow"
                             style="width: 80px; height: 80px; background-color: white;">
@@ -134,7 +138,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="100">
                     <div class="text-center p-4 hover-lift">
                         <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3 shadow"
                             style="width: 80px; height: 80px; background-color: white;">
@@ -148,7 +152,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="200">
                     <div class="text-center p-4 hover-lift">
                         <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3 shadow"
                             style="width: 80px; height: 80px; background-color: white;">
@@ -161,7 +165,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="300">
                     <div class="text-center p-4 hover-lift">
                         <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3 shadow"
                             style="width: 80px; height: 80px; background-color: white;">
@@ -174,7 +178,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="400">
                     <div class="text-center p-4 hover-lift">
                         <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3 shadow"
                             style="width: 80px; height: 80px; background-color: white;">
@@ -187,7 +191,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-4 col-md-6">
+                <div class="col-lg-4 col-md-6" data-aos="zoom-in" data-aos-delay="500">
                     <div class="text-center p-4 hover-lift">
                         <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3 shadow"
                             style="width: 80px; height: 80px; background-color: white;">
@@ -207,24 +211,28 @@
     <section class="py-5" style="background: linear-gradient(135deg, #D4AF88 0%, #C19A6B 100%);">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 mx-auto text-center text-white">
+                <div class="col-lg-8 mx-auto text-center text-white" data-aos="flip-up">
                     <i class="bi bi-shop-window display-1 mb-4"></i>
                     <h2 class="display-5 fw-bold mb-3">Visit Us Today!</h2>
                     <p class="lead mb-4">
-                        <i class="bi bi-heart-fill me-2"></i>
-                        Experience the warmth and deliciousness of Vanilla Bakery. Stop by our store or browse our products
-                        online.
+                        Experience the warmth and quality that make Vanilla Bakery special. We're located at Wisata Bukit Mas C4-18.
                     </p>
                     <div class="d-flex gap-3 justify-content-center flex-wrap">
-                        <a href="/products" class="btn btn-light btn-lg px-5 shadow">
-                            <i class="bi bi-basket2-fill me-2"></i>View Our Products
+                        <a href="https://wa.me/6281332227289" target="_blank" class="btn btn-light btn-lg px-5 rounded-pill shadow">
+                            <i class="bi bi-whatsapp me-2"></i>Contact Us
                         </a>
-                        <a href="/#contact" class="btn btn-outline-light btn-lg px-5 shadow">
-                            <i class="bi bi-envelope-fill me-2"></i>Contact Us
+                        <a href="/products" class="btn btn-outline-light btn-lg px-5 rounded-pill shadow">
+                            <i class="bi bi-basket me-2"></i>View Products
                         </a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
 @endsection

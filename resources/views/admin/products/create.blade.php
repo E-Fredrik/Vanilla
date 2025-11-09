@@ -31,8 +31,8 @@
                                        id="name" 
                                        class="form-control @error('name') is-invalid @enderror" 
                                        value="{{ old('name') }}" 
-                                       required 
-                                       placeholder="e.g., Chocolate Croissant">
+                                       required
+                                       placeholder="Chocolate Cake">
                                 @error('name')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -46,8 +46,8 @@
                                 <textarea name="description" 
                                           id="description" 
                                           rows="4" 
-                                          class="form-control @error('description') is-invalid @enderror" 
-                                          placeholder="Describe your product in detail...">{{ old('description') }}</textarea>
+                                          class="form-control @error('description') is-invalid @enderror"
+                                          placeholder="A delicious chocolate cake with rich frosting...">{{ old('description') }}</textarea>
                                 @error('description')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -93,13 +93,14 @@
                                     <i class="bi bi-grid-3x3-gap me-2"></i>Categories *
                                 </label>
                                 <div class="border rounded p-3" style="background-color: #f8f9fa;">
-                                    @foreach(\App\Models\Category::all() as $category)
+                                    @foreach($categories as $category)
                                         <div class="form-check mb-2">
                                             <input class="form-check-input" 
                                                    type="checkbox" 
                                                    name="categories[]" 
                                                    value="{{ $category->id }}" 
                                                    id="category{{ $category->id }}"
+
                                                    {{ in_array($category->id, old('categories', [])) ? 'checked' : '' }}>
                                             <label class="form-check-label" for="category{{ $category->id }}">
                                                 <strong>{{ $category->name }}</strong>
@@ -114,7 +115,7 @@
                                 <small class="text-muted">Select at least one category for this product.</small>
                             </div>
 
-                            <!-- Image Upload with Icon Indicator -->
+                            <!-- Image Upload -->
                             <div class="mb-4">
                                 <label for="image" class="form-label">
                                     <i class="bi bi-image me-2"></i>Product Image
@@ -172,7 +173,7 @@
             
             if (file) {
                 const fileName = file.name;
-                const fileSize = (file.size / 1024 / 1024).toFixed(2); // Convert to MB
+                const fileSize = (file.size / 1024 / 1024).toFixed(2);
                 
                 statusDiv.innerHTML = `
                     <div class="d-flex align-items-center gap-2">

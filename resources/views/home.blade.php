@@ -150,7 +150,7 @@
 
         <!-- Testimonial Section -->
         <div class="row mb-5">
-            <div class="col-12 text-center mb-4">
+            <div class="col-12 text-center mb-4" data-aos="fade-down">
                 <span class="badge rounded-pill px-4 py-2 mb-3" style="background-color: #D4AF88; font-size: 0.9rem;">
                     <i class="bi bi-chat-quote-fill me-2"></i>Testimonials
                 </span>
@@ -161,36 +161,38 @@
             </div>
 
             <div class="col-12">
-                <!-- Bootstrap Carousel with improved spacing -->
-                <div id="testimonialsCarousel" class="carousel slide position-relative" 
-                     data-bs-ride="carousel" data-bs-interval="3000"
-                     style="padding: 2rem 0 3.5rem 0;"> <!-- Added padding for arrows and indicators -->
-                    
-                    <!-- Carousel Inner -->
-                    <div class="carousel-inner">
-                        @foreach ($testimonies as $index => $testimony)
-                            <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-                                <div class="container">
-                                    <div class="row justify-content-center">
-                                        <div class="col-lg-8 col-md-10">
-                                            <div class="card border-0 shadow-lg testimonial-card">
-                                                <div class="card-body p-4 p-lg-5 text-center">
-                                                    <div class="mb-4">
-                                                        <i class="bi bi-quote text-muted"
-                                                            style="font-size: 3rem; opacity: 0.3;"></i>
-                                                    </div>
-                                                    <p class="lead mb-4"
-                                                        style="color: #4A4A4A; line-height: 1.8; font-size: 1.25rem;">
-                                                        "{{ $testimony->content }}"
-                                                    </p>
-                                                    <div class="d-flex align-items-center justify-content-center">
-                                                        <div class="rounded-circle bg-light d-flex align-items-center justify-content-center me-3"
-                                                            style="width: 60px; height: 60px;">
-                                                            <i class="bi bi-person-fill fs-3" style="color: #D4AF88;"></i>
+                <!-- Testimonials Carousel -->
+                @if($testimonies->count() > 0)
+                    <div id="testimonialsCarousel" class="carousel slide position-relative" 
+                         data-bs-ride="carousel" data-bs-interval="3000"
+                         style="padding: 2rem 0 3.5rem 0;"
+                         data-aos="fade-up" data-aos-delay="100">
+                        
+                        <div class="carousel-inner">
+                            @foreach ($testimonies as $index => $testimony)
+                                <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                                    <div class="container">
+                                        <div class="row justify-content-center">
+                                            <div class="col-lg-8 col-md-10">
+                                                <div class="card border-0 shadow-lg testimonial-card">
+                                                    <div class="card-body p-4 p-lg-5 text-center">
+                                                        <div class="mb-4">
+                                                            <i class="bi bi-quote text-muted"
+                                                                style="font-size: 3rem; opacity: 0.3;"></i>
                                                         </div>
-                                                        <div class="text-start">
-                                                            <h5 class="mb-0 fw-bold">{{ $testimony->name }}</h5>
-                                                            <small class="text-muted">Verified Customer</small>
+                                                        <p class="lead mb-4"
+                                                            style="color: #4A4A4A; line-height: 1.8; font-size: 1.25rem;">
+                                                            "{{ $testimony->content }}"
+                                                        </p>
+                                                        <div class="d-flex align-items-center justify-content-center">
+                                                            <div class="rounded-circle bg-light d-flex align-items-center justify-content-center me-3"
+                                                                style="width: 60px; height: 60px;">
+                                                                <i class="bi bi-person-fill fs-3" style="color: #D4AF88;"></i>
+                                                            </div>
+                                                            <div class="text-start">
+                                                                <h5 class="mb-0 fw-bold">{{ $testimony->name }}</h5>
+                                                                <small class="text-muted">Verified Customer</small>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -198,43 +200,158 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
-                    </div>
+                            @endforeach
+                        </div>
 
-                    <!-- Carousel Controls - Smaller Arrows -->
-                    <button class="carousel-control-prev testimonial-control-prev" 
-                            type="button" 
-                            data-bs-target="#testimonialsCarousel"
-                            data-bs-slide="prev">
-                        <span class="d-flex align-items-center justify-content-center" 
-                              aria-hidden="true">
-                            <i class="bi bi-chevron-left text-white"></i>
-                        </span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next testimonial-control-next" 
-                            type="button" 
-                            data-bs-target="#testimonialsCarousel"
-                            data-bs-slide="next">
-                        <span class="d-flex align-items-center justify-content-center" 
-                              aria-hidden="true">
-                            <i class="bi bi-chevron-right text-white"></i>
-                        </span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                    
-                    <!-- Carousel Indicators -->
-                    <div class="carousel-indicators">
-                        @foreach ($testimonies as $index => $testimony)
-                            <button type="button" 
-                                    data-bs-target="#testimonialsCarousel"
-                                    data-bs-slide-to="{{ $index }}" 
-                                    class="{{ $index === 0 ? 'active' : '' }}"
-                                    aria-current="{{ $index === 0 ? 'true' : 'false' }}"
-                                    aria-label="Slide {{ $index + 1 }}">
-                            </button>
-                        @endforeach
+                        <!-- Carousel Controls -->
+                        <button class="carousel-control-prev testimonial-control-prev" 
+                                type="button" 
+                                data-bs-target="#testimonialsCarousel"
+                                data-bs-slide="prev">
+                            <span class="d-flex align-items-center justify-content-center" 
+                                  aria-hidden="true">
+                                <i class="bi bi-chevron-left text-white"></i>
+                            </span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next testimonial-control-next" 
+                                type="button" 
+                                data-bs-target="#testimonialsCarousel"
+                                data-bs-slide="next">
+                            <span class="d-flex align-items-center justify-content-center" 
+                                  aria-hidden="true">
+                                <i class="bi bi-chevron-right text-white"></i>
+                            </span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                        
+                        <!-- Carousel Indicators -->
+                        <div class="carousel-indicators">
+                            @foreach ($testimonies as $index => $testimony)
+                                <button type="button" 
+                                        data-bs-target="#testimonialsCarousel"
+                                        data-bs-slide-to="{{ $index }}" 
+                                        class="{{ $index === 0 ? 'active' : '' }}"
+                                        aria-current="{{ $index === 0 ? 'true' : 'false' }}"
+                                        aria-label="Slide {{ $index + 1 }}">
+                                </button>
+                            @endforeach
+                        </div>
+                    </div>
+                @else
+                    <div class="alert alert-info text-center" data-aos="fade-up">
+                        <i class="bi bi-info-circle me-2"></i>
+                        Be the first to share your experience!
+                    </div>
+                @endif
+
+                <!-- Add Testimony Form -->
+                <div class="row justify-content-center mt-5" data-aos="fade-up" data-aos-delay="200">
+                    <div class="col-lg-8">
+                        <div class="card border-0 shadow-lg" style="background: linear-gradient(135deg, #F5E6D3 0%, #E8D4B8 100%);">
+                            <div class="card-body p-4 p-lg-5">
+                                <div class="text-center mb-4">
+                                    <i class="bi bi-chat-left-heart-fill fs-1 mb-3" style="color: #D4AF88;"></i>
+                                    <h3 class="fw-bold mb-2" style="color: #2C2C2C;">Share Your Experience</h3>
+                                    <p class="text-muted">We'd love to hear what you think about our bakery!</p>
+                                </div>
+
+                                @if(session('success'))
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <i class="bi bi-check-circle-fill me-2"></i>
+                                        {{ session('success') }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                @endif
+
+                                @if($errors->has('error'))
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                        {{ $errors->first('error') }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                @endif
+
+                                <form action="{{ route('testimonies.store') }}" method="POST">
+                                    @csrf
+
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label fw-bold">
+                                            <i class="bi bi-person me-2"></i>Your Name *
+                                        </label>
+                                        <input type="text" 
+                                               name="name" 
+                                               id="name" 
+                                               class="form-control @error('name') is-invalid @enderror" 
+                                               value="{{ old('name') }}" 
+                                               required
+                                               placeholder="John Doe">
+                                        @error('name')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label fw-bold">
+                                            <i class="bi bi-envelope me-2"></i>Email (Optional)
+                                        </label>
+                                        <input type="email" 
+                                               name="email" 
+                                               id="email" 
+                                               class="form-control @error('email') is-invalid @enderror" 
+                                               value="{{ old('email') }}"
+
+                                               placeholder="john@example.com">
+                                        @error('email')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="product_id" class="form-label fw-bold">
+                                            <i class="bi bi-box-seam me-2"></i>Product (Optional)
+                                        </label>
+                                        <select name="product_id" 
+                                                id="product_id" 
+                                                class="form-select @error('product_id') is-invalid @enderror">
+                                            <option value="">General Testimony</option>
+                                            @foreach($products as $product)
+                                                <option value="{{ $product->id }}" {{ old('product_id') == $product->id ? 'selected' : '' }}>
+                                                    {{ $product->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('product_id')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                        <small class="text-muted">Select a specific product or leave blank for general feedback</small>
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label for="content" class="form-label fw-bold">
+                                            <i class="bi bi-chat-quote me-2"></i>Your Testimony *
+                                        </label>
+                                        <textarea name="content" 
+                                                  id="content" 
+                                                  rows="4" 
+                                                  class="form-control @error('content') is-invalid @enderror"
+                                                  required
+                                                  placeholder="Tell us about your experience...">{{ old('content') }}</textarea>
+                                        @error('content')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                        <small class="text-muted">Minimum 10 characters</small>
+                                    </div>
+
+                                    <div class="d-grid">
+                                        <button type="submit" class="btn btn-lg" style="background-color: #D4AF88; color: white; border: none;">
+                                            <i class="bi bi-send-fill me-2"></i>
+                                            Submit Testimony
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

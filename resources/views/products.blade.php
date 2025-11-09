@@ -1,15 +1,20 @@
 @extends('layouts.layout')
 @section('title', 'Our Products')
+
 @section('content')
     <link rel="stylesheet" href="{{ asset('css/products.css') }}">
+    
+    <!-- AOS CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
     <!-- Hero Section -->
     <div class="bg-gradient py-5 mb-5 rounded-bottom-5">
         <div class="container text-center">
-            <h1 class="display-4 fw-bold mb-3" style="font-family: Georgia, serif; color: #2C2C2C;">
+            <h1 class="display-4 fw-bold mb-3" style="font-family: Georgia, serif; color: #2C2C2C;" data-aos="fade-down">
                 Our Delicious Products
             </h1>
-            <p class="lead text-muted mb-4">Freshly baked with love, every single day</p>
-            <div class="mt-3">
+            <p class="lead text-muted mb-4" data-aos="fade-up" data-aos-delay="100">Freshly baked with love, every single day</p>
+            <div class="mt-3" data-aos="zoom-in" data-aos-delay="200">
                 <i class="bi bi-star-fill fs-5" style="color: #D4AF88;"></i>
                 <i class="bi bi-star-fill fs-5 mx-2" style="color: #D4AF88;"></i>
                 <i class="bi bi-star-fill fs-5" style="color: #D4AF88;"></i>
@@ -21,7 +26,7 @@
         <!-- Search and View Toggle Section -->
         <div class="row mb-4">
             <div class="col-12">
-                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4" data-aos="fade-down">
                     <!-- Search Bar -->
                     <div class="flex-grow-1" style="max-width: 500px;">
                         <form action="{{ route('products.index') }}" method="GET" class="position-relative">
@@ -64,7 +69,7 @@
         <!-- Category Filter Section -->
         <div class="row mb-5">
             <div class="col-12">
-                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-4" data-aos="fade-right">
                     <h5 class="mb-0" style="color: #2C2C2C;">
                         <i class="bi bi-funnel-fill me-2" style="color: #D4AF88;"></i>
                         Filter by Category
@@ -75,7 +80,7 @@
                 </div>
 
                 <!-- Category Buttons -->
-                <div class="d-flex flex-wrap gap-2 mb-4">
+                <div class="d-flex flex-wrap gap-2 mb-4" data-aos="fade-left">
                     <a href="{{ route('products.index', ['search' => $searchTerm, 'view' => $viewMode]) }}" 
                        class="btn filter-btn {{ !$selectedCategory || $selectedCategory === 'all' ? 'active' : '' }}"
                        style="{{ !$selectedCategory || $selectedCategory === 'all' ? 'background-color: #D4AF88; color: white;' : 'background-color: white; color: #2C2C2C; border: 2px solid #D4AF88;' }}">
@@ -102,7 +107,8 @@
                 <!-- Active Filters Display -->
                 @if($selectedCategory && $selectedCategory !== 'all' || $searchTerm)
                     <div class="alert alert-light border-0 shadow-sm d-flex justify-content-between align-items-center flex-wrap gap-2" 
-                         style="background: linear-gradient(135deg, #F5E6D3 0%, #E8D4B8 100%);">
+                         style="background: linear-gradient(135deg, #F5E6D3 0%, #E8D4B8 100%);"
+                         data-aos="zoom-in">
                         <div>
                             <i class="bi bi-funnel-fill me-2" style="color: #D4AF88;"></i>
                             <strong>Active Filters:</strong>
@@ -136,7 +142,9 @@
                 <!-- Grid View -->
                 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                     @foreach ($products as $product)
-                        <div class="col" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
+                        <div class="col" 
+                             data-aos="fade-up" 
+                             data-aos-delay="{{ $loop->index * 100 }}">
                             <div class="card h-100 product-card shadow-sm border-0">
                                 <!-- Product Image -->
                                 <div class="position-relative overflow-hidden" style="height: 250px; background: linear-gradient(135deg, #F5E6D3 0%, #E8D4B8 100%);">
@@ -235,7 +243,9 @@
                 <!-- List View -->
                 <div class="row g-3">
                     @foreach ($products as $product)
-                        <div class="col-12" data-aos="fade-up" data-aos-delay="{{ $loop->index * 50 }}">
+                        <div class="col-12" 
+                             data-aos="fade-left" 
+                             data-aos-delay="{{ $loop->index * 50 }}">
                             <div class="card product-card-list shadow-sm border-0">
                                 <div class="row g-0">
                                     <!-- Product Image -->
@@ -331,7 +341,7 @@
             <!-- Pagination Section -->
             <div class="row mt-5">
                 <div class="col-12">
-                    <nav aria-label="Product pagination">
+                    <nav aria-label="Product pagination" data-aos="fade-up">
                         <div class="d-flex justify-content-center align-items-center flex-column gap-3">
                             <!-- Pagination Info -->
                             <p class="text-muted mb-0">
@@ -350,7 +360,9 @@
             <!-- Empty State -->
             <div class="row">
                 <div class="col-12">
-                    <div class="d-flex flex-column align-items-center justify-content-center text-center py-5 my-5" style="min-height: 400px;">
+                    <div class="d-flex flex-column align-items-center justify-content-center text-center py-5 my-5" 
+                         style="min-height: 400px;"
+                         data-aos="zoom-in">
                         <div class="mb-4">
                             <i class="bi bi-search display-1 text-muted opacity-50"></i>
                         </div>
@@ -380,7 +392,8 @@
     <!-- Call to Action Section -->
     <div class="container mb-5">
         <div class="rounded-4 shadow-lg py-5 px-4" 
-             style="background: linear-gradient(135deg, #F5E6D3 0%, #E8D4B8 100%);">
+             style="background: linear-gradient(135deg, #F5E6D3 0%, #E8D4B8 100%);"
+             data-aos="flip-up">
             <div class="text-center">
                 <h3 class="fw-bold mb-3" style="font-family: Georgia, serif; color: #2C2C2C;">
                     <i class="bi bi-heart-fill me-2" style="color: #D4AF88;"></i>
@@ -409,31 +422,9 @@
         </div>
     </div>
 
-    <!-- AOS Animation Library -->
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- AOS JS -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({
-            duration: 600,
-            easing: 'ease-out',
-            once: true
-        });
-        
-        // Scroll to top on pagination click
-        document.addEventListener('DOMContentLoaded', function() {
-            const paginationLinks = document.querySelectorAll('.pagination a');
-            
-            paginationLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    // Smooth scroll to products section
-                    setTimeout(() => {
-                        window.scrollTo({
-                            top: 300,
-                            behavior: 'smooth'
-                        });
-                    }, 100);
-                });
-            });
-        });
+        AOS.init();
     </script>
 @endsection

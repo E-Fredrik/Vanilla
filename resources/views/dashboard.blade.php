@@ -1,44 +1,42 @@
 <x-app-layout>
     <x-slot name="header">
-        <div>
-            <h1 class="page-title">
-                <i class="bi bi-speedometer2 me-2" style="color: #D4AF88;"></i>
-                Dashboard
-            </h1>
-            <p class="page-subtitle mb-0">Welcome back, {{ Auth::user()->name }}! Here's what's happening with your bakery.</p>
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
+            <div>
+                <h1 class="page-title mb-2 mb-md-0">
+                    <i class="bi bi-speedometer2 me-2" style="color: #D4AF88;"></i>
+                    Dashboard
+                </h1>
+                <p class="page-subtitle mb-0 d-none d-md-block">Welcome back, {{ Auth::user()->name }}! Here's what's happening with your bakery.</p>
+            </div>
         </div>
     </x-slot>
 
     <div class="container-fluid">
         <!-- Stats Cards -->
-        <div class="row g-4 mb-5">
-            <div class="col-md-6">
+        <div class="row g-3 g-md-4 mb-4 mb-md-5">
+            <div class="col-12 col-sm-6 col-lg-6">
                 <div class="stat-card">
                     <div class="stat-icon primary">
                         <i class="bi bi-box-seam"></i>
                     </div>
-                    <h3 class="stat-value">{{ \App\Models\Product::count() }}</h3>
+                    <h3 class="stat-value">{{ $stats['totalProducts'] }}</h3>
                     <p class="stat-label">Total Products</p>
-                    <a href="{{ route('admin.products.index') }}" class="btn btn-sm btn-outline-primary mt-3">
+                    <a href="{{ route('admin.products.index') }}" class="btn btn-sm btn-outline-primary mt-3 w-100 w-md-auto">
                         <i class="bi bi-eye me-2"></i>View All Products
                     </a>
                 </div>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-12 col-sm-6 col-lg-6">
                 <div class="stat-card">
                     <div class="stat-icon success">
                         <i class="bi bi-grid-3x3-gap"></i>
                     </div>
-                    <h3 class="stat-value">{{ \App\Models\Category::count() }}</h3>
-                    <p class="stat-label">Product Categories</p>
-                    <div class="mt-3">
-                        @foreach(\App\Models\Category::withCount('products')->get() as $category)
-                            <span class="badge me-1 mb-1" style="background-color: #D4AF88;">
-                                {{ $category->name }} ({{ $category->products_count }})
-                            </span>
-                        @endforeach
-                    </div>
+                    <h3 class="stat-value">{{ $stats['totalCategories'] }}</h3>
+                    <p class="stat-label">Categories</p>
+                    <a href="{{ route('admin.categories.index') }}" class="btn btn-sm btn-outline-success mt-3 w-100 w-md-auto">
+                        <i class="bi bi-eye me-2"></i>Manage Categories
+                    </a>
                 </div>
             </div>
         </div>
@@ -47,7 +45,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2">
                         <span>
                             <i class="bi bi-clock-history me-2"></i>
                             Recent Products
@@ -57,27 +55,23 @@
                         </a>
                     </div>
                     <div class="card-body">
-                        @php
-                            $recentProducts = \App\Models\Product::with('categories')->latest()->take(5)->get();
-                        @endphp
-
                         @if($recentProducts->count() > 0)
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>Image</th>
+                                            <th class="d-none d-md-table-cell">Image</th>
                                             <th>Name</th>
-                                            <th>Categories</th>
+                                            <th class="d-none d-lg-table-cell">Categories</th>
                                             <th>Price</th>
-                                            <th>Created</th>
-                                            <th>Actions</th>
+                                            <th class="d-none d-xl-table-cell">Created</th>
+                                            <th class="text-center">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach($recentProducts as $product)
                                             <tr>
-                                                <td>
+                                                <td class="d-none d-md-table-cell">
                                                     @if($product->imagePath && Storage::disk('public')->exists($product->imagePath))
                                                         <img src="{{ asset('storage/' . $product->imagePath) }}" 
                                                              alt="{{ $product->name }}" 
@@ -90,19 +84,23 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <strong>{{ $product->name }}</strong>
+                                                    <strong class="d-block">{{ $product->name }}</strong>
+                                                    <small class="text-muted d-md-none">Rp {{ number_format($product->price, 0, ',', '.') }}</small>
                                                 </td>
-                                                <td>
+                                                <td class="d-none d-lg-table-cell">
                                                     @foreach($product->categories as $category)
-                                                        <span class="badge badge-primary me-1">{{ $category->name }}</span>
+                                                        <span class="badge badge-primary me-1 mb-1">{{ $category->name }}</span>
                                                     @endforeach
                                                 </td>
-                                                <td>Rp {{ number_format($product->price, 0, ',', '.') }}</td>
-                                                <td>{{ $product->created_at->diffForHumans() }}</td>
-                                                <td>
+                                                <td class="d-none d-md-table-cell">Rp {{ number_format($product->price, 0, ',', '.') }}</td>
+                                                <td class="d-none d-xl-table-cell">
+                                                    <small>{{ $product->created_at->diffForHumans() }}</small>
+                                                </td>
+                                                <td class="text-center">
                                                     <a href="{{ route('admin.products.edit', $product) }}" 
                                                        class="btn btn-sm btn-primary">
                                                         <i class="bi bi-pencil"></i>
+                                                        <span class="d-none d-lg-inline ms-1">Edit</span>
                                                     </a>
                                                 </td>
                                             </tr>

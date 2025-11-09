@@ -56,12 +56,19 @@ class ProductsController extends Controller
 
     public function show($id)
     {
-        $product = Product::find($id);
-        if (!$product) {
-            abort(404, 'Product not found');
-        }
+        $product = Product::with(['categories', 'testimonies' => function($query) {
+            $query->where('status', 'approved')
+                  ->latest();
+        }])->findOrFail($id);
 
-        return view('detailProduct', ['product' => $product]);
+        // Get approved testimonies count
+        $testimoniesCount = $product->testimonies->count();
+
+        return view('detailProduct', [
+            'product' => $product,
+            'productTestimonies' => $product->testimonies,
+            'testimoniesCount' => $testimoniesCount
+        ]);
     }
 
     public function home()

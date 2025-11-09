@@ -1,4 +1,3 @@
-<?php
 <x-app-layout>
     <x-slot name="header">
         <div>
@@ -91,7 +90,7 @@
                                     <i class="bi bi-grid-3x3-gap me-2"></i>Categories *
                                 </label>
                                 <div class="border rounded p-3" style="background-color: #f8f9fa;">
-                                    @foreach(\App\Models\Category::all() as $category)
+                                    @foreach($categories as $category)
                                         <div class="form-check mb-2">
                                             <input class="form-check-input" 
                                                    type="checkbox" 
@@ -186,7 +185,7 @@
             
             if (file) {
                 const fileName = file.name;
-                const fileSize = (file.size / 1024 / 1024).toFixed(2); // Convert to MB
+                const fileSize = (file.size / 1024 / 1024).toFixed(2);
                 
                 statusDiv.innerHTML = `
                     <div class="d-flex align-items-center gap-2">

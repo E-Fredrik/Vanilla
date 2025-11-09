@@ -31,7 +31,7 @@
                 All Products ({{ $products->total() }})
             </div>
             <div class="card-body p-0">
-                @if($products->count() > 0)
+                @if ($products->count() > 0)
                     <div class="table-container">
                         <table class="table mb-0">
                             <thead>
@@ -49,22 +49,22 @@
                                     <tr>
                                         <td>
                                             @if ($product->imagePath && Storage::disk('public')->exists($product->imagePath))
-                                                <img src="{{ asset('storage/' . $product->imagePath) }}" 
-                                                     alt="{{ $product->name }}" 
-                                                     class="product-image-thumb">
+                                                <img src="{{ asset('storage/' . $product->imagePath) }}"
+                                                    alt="{{ $product->name }}" class="product-image-thumb">
                                             @else
-                                                <div class="product-image-thumb d-flex align-items-center justify-content-center" 
-                                                     style="background: linear-gradient(135deg, #F5E6D3 0%, #E8D4B8 100%);">
+                                                <div class="product-image-thumb d-flex align-items-center justify-content-center"
+                                                    style="background: linear-gradient(135deg, #F5E6D3 0%, #E8D4B8 100%);">
                                                     <i class="bi bi-image" style="color: #D4AF88;"></i>
                                                 </div>
                                             @endif
                                         </td>
                                         <td>
                                             <strong class="d-block">{{ $product->name }}</strong>
-                                            <small class="text-muted">ID: #{{ str_pad($product->id, 4, '0', STR_PAD_LEFT) }}</small>
+                                            <small class="text-muted">ID:
+                                                #{{ str_pad($product->id, 4, '0', STR_PAD_LEFT) }}</small>
                                         </td>
                                         <td>
-                                            @foreach($product->categories as $category)
+                                            @foreach ($product->categories as $category)
                                                 <span class="badge badge-primary me-1 mb-1">{{ $category->name }}</span>
                                             @endforeach
                                         </td>
@@ -80,21 +80,17 @@
                                         </td>
                                         <td class="text-center">
                                             <div class="btn-group" role="group">
-                                                <a href="{{ route('products.show', $product->id) }}" 
-                                                   class="btn btn-sm btn-secondary" 
-                                                   target="_blank"
-                                                   title="View">
+                                                <a href="{{ route('products.show', $product->id) }}"
+                                                    class="btn btn-sm btn-secondary" target="_blank" title="View">
                                                     <i class="bi bi-eye"></i>
                                                 </a>
-                                                <a href="{{ route('admin.products.edit', $product) }}" 
-                                                   class="btn btn-sm btn-primary"
-                                                   title="Edit">
+                                                <a href="{{ route('admin.products.edit', $product) }}"
+                                                    class="btn btn-sm btn-primary" title="Edit">
                                                     <i class="bi bi-pencil"></i>
                                                 </a>
-                                                <form action="{{ route('admin.products.destroy', $product) }}" 
-                                                      method="POST" 
-                                                      class="d-inline"
-                                                      onsubmit="return confirm('Are you sure you want to delete this product?');">
+                                                <form action="{{ route('admin.products.destroy', $product) }}"
+                                                    method="POST" class="d-inline"
+                                                    onsubmit="return confirm('Are you sure you want to delete this product?');">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-sm btn-danger" title="Delete">
@@ -113,7 +109,8 @@
                     <div class="p-3 border-top">
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="text-muted small">
-                                Showing {{ $products->firstItem() }} to {{ $products->lastItem() }} of {{ $products->total() }} products
+                                Showing {{ $products->firstItem() }} to {{ $products->lastItem() }} of
+                                {{ $products->total() }} products
                             </div>
                             <div>
                                 {{ $products->links('pagination::bootstrap-5') }}

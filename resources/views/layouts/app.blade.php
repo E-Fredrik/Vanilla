@@ -19,9 +19,17 @@
     <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
 </head>
 <body>
-    <div class="d-flex">
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+        <i class="bi bi-list"></i>
+    </button>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <div class="admin-layout">
         <!-- Sidebar -->
-        <aside class="sidebar d-flex flex-column">
+        <aside class="sidebar" id="sidebar">
             <!-- Sidebar Header -->
             <div class="sidebar-header">
                 <a href="/" class="sidebar-brand">
@@ -34,7 +42,7 @@
             </div>
 
             <!-- Navigation -->
-            <nav class="sidebar-nav flex-grow-1">
+            <nav class="sidebar-nav">
                 <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                     <i class="bi bi-speedometer2"></i>
                     Dashboard
@@ -42,6 +50,14 @@
                 <a href="{{ route('admin.products.index') }}" class="nav-link {{ request()->routeIs('admin.products.*') ? 'active' : '' }}">
                     <i class="bi bi-box-seam"></i>
                     Products
+                </a>
+                <a href="{{ route('admin.categories.index') }}" class="nav-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
+                    <i class="bi bi-grid-3x3-gap"></i>
+                    Categories
+                </a>
+                <a href="{{ route('admin.testimonies.index') }}" class="nav-link {{ request()->routeIs('admin.testimonies.*') ? 'active' : '' }}">
+                    <i class="bi bi-chat-left-quote"></i>
+                    Testimonies
                 </a>
                 <a href="/" class="nav-link">
                     <i class="bi bi-globe"></i>
@@ -75,7 +91,7 @@
             @endisset
 
             <!-- Page Content -->
-            <main class="p-4">
+            <main class="p-3 p-md-4">
                 {{ $slot }}
             </main>
         </div>
@@ -83,5 +99,29 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Mobile Menu Script -->
+    <script>
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('show');
+            sidebarOverlay.classList.toggle('show');
+        }
+
+        mobileMenuToggle.addEventListener('click', toggleSidebar);
+        sidebarOverlay.addEventListener('click', toggleSidebar);
+
+        // Close sidebar when clicking nav links on mobile
+        document.querySelectorAll('.sidebar .nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 992) {
+                    toggleSidebar();
+                }
+            });
+        });
+    </script>
 </body>
 </html>
