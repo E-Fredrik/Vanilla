@@ -7,7 +7,7 @@
     <div class="jumbotron mb-0">
         <div class="jumbotron-content container">
             <h1 class="display-1 fw-bold mb-4 animate__animated animate__fadeInDown">Vanilla Bakery</h1>
-            <p class="lead fs-3 mb-4 animate__animated animate__fadeInUp">Jl. Raya Balongpanggang No. 26</p>
+            <p class="lead fs-3 mb-4 animate__animated animate__fadeInUp">Wisata Bukit Mas C4-18</p>
             <a href="/products"
                 class="btn btn-lg px-5 py-3 rounded-pill shadow-lg animate__animated animate__fadeInUp animate__delay-1s"
                 style="background-color: #D4AF88; color: white; border: none; transition: all 0.3s ease;">
@@ -150,7 +150,7 @@
 
         <!-- Testimonial Section -->
         <div class="row mb-5">
-            <div class="col-12 text-center mb-5">
+            <div class="col-12 text-center mb-4">
                 <span class="badge rounded-pill px-4 py-2 mb-3" style="background-color: #D4AF88; font-size: 0.9rem;">
                     <i class="bi bi-chat-quote-fill me-2"></i>Testimonials
                 </span>
@@ -160,19 +160,12 @@
                 <p class="lead text-muted">Hear from our satisfied customers</p>
             </div>
 
-            <div class="col-12 position-relative">
-                <!-- Bootstrap Carousel -->
-                <div id="testimonialsCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
-                    <div class="carousel-indicators">
-                        @foreach ($testimonies as $index => $testimony)
-                            <button type="button" data-bs-target="#testimonialsCarousel"
-                                data-bs-slide-to="{{ $index }}" class="{{ $index === 0 ? 'active' : '' }}"
-                                aria-current="{{ $index === 0 ? 'true' : 'false' }}"
-                                aria-label="Slide {{ $index + 1 }}">
-                            </button>
-                        @endforeach
-                    </div>
-
+            <div class="col-12">
+                <!-- Bootstrap Carousel with improved spacing -->
+                <div id="testimonialsCarousel" class="carousel slide position-relative" 
+                     data-bs-ride="carousel" data-bs-interval="3000"
+                     style="padding: 2rem 0 3.5rem 0;"> <!-- Added padding for arrows and indicators -->
+                    
                     <!-- Carousel Inner -->
                     <div class="carousel-inner">
                         @foreach ($testimonies as $index => $testimony)
@@ -181,7 +174,7 @@
                                     <div class="row justify-content-center">
                                         <div class="col-lg-8 col-md-10">
                                             <div class="card border-0 shadow-lg testimonial-card">
-                                                <div class="card-body p-5 text-center">
+                                                <div class="card-body p-4 p-lg-5 text-center">
                                                     <div class="mb-4">
                                                         <i class="bi bi-quote text-muted"
                                                             style="font-size: 3rem; opacity: 0.3;"></i>
@@ -197,6 +190,7 @@
                                                         </div>
                                                         <div class="text-start">
                                                             <h5 class="mb-0 fw-bold">{{ $testimony->name }}</h5>
+                                                            <small class="text-muted">Verified Customer</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -208,25 +202,40 @@
                         @endforeach
                     </div>
 
-                    <!-- Carousel Controls - Improved Design -->
-                    <button class="carousel-control-prev testimonial-control-prev" type="button" data-bs-target="#testimonialsCarousel"
-                        data-bs-slide="prev" style="width: auto; left: -60px;">
-                        <span class="d-flex align-items-center justify-content-center rounded-circle shadow" 
-                            style="background-color: #D4AF88; width: 45px; height: 45px; transition: all 0.3s ease;"
-                            aria-hidden="true">
-                            <i class="bi bi-chevron-left text-white" style="font-size: 1.2rem;"></i>
+                    <!-- Carousel Controls - Smaller Arrows -->
+                    <button class="carousel-control-prev testimonial-control-prev" 
+                            type="button" 
+                            data-bs-target="#testimonialsCarousel"
+                            data-bs-slide="prev">
+                        <span class="d-flex align-items-center justify-content-center" 
+                              aria-hidden="true">
+                            <i class="bi bi-chevron-left text-white"></i>
                         </span>
                         <span class="visually-hidden">Previous</span>
                     </button>
-                    <button class="carousel-control-next testimonial-control-next" type="button" data-bs-target="#testimonialsCarousel"
-                        data-bs-slide="next" style="width: auto; right: -60px;">
-                        <span class="d-flex align-items-center justify-content-center rounded-circle shadow" 
-                            style="background-color: #D4AF88; width: 45px; height: 45px; transition: all 0.3s ease;"
-                            aria-hidden="true">
-                            <i class="bi bi-chevron-right text-white" style="font-size: 1.2rem;"></i>
+                    <button class="carousel-control-next testimonial-control-next" 
+                            type="button" 
+                            data-bs-target="#testimonialsCarousel"
+                            data-bs-slide="next">
+                        <span class="d-flex align-items-center justify-content-center" 
+                              aria-hidden="true">
+                            <i class="bi bi-chevron-right text-white"></i>
                         </span>
                         <span class="visually-hidden">Next</span>
                     </button>
+                    
+                    <!-- Carousel Indicators -->
+                    <div class="carousel-indicators">
+                        @foreach ($testimonies as $index => $testimony)
+                            <button type="button" 
+                                    data-bs-target="#testimonialsCarousel"
+                                    data-bs-slide-to="{{ $index }}" 
+                                    class="{{ $index === 0 ? 'active' : '' }}"
+                                    aria-current="{{ $index === 0 ? 'true' : 'false' }}"
+                                    aria-label="Slide {{ $index + 1 }}">
+                            </button>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>

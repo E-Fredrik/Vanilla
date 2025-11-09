@@ -18,6 +18,7 @@ class ProductSeeder extends Seeder
         $pastries = Category::where('name', 'Pastries')->first();
         $breads = Category::where('name', 'Breads')->first();
 
+        // Create products
         $chocolatePudding = Product::create([
             'name' => 'Chocolate Pudding',
             'description' => 'A sweet and creamy chocolate pudding made with high-quality cocoa.',

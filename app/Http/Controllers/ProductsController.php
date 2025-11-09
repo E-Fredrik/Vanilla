@@ -30,13 +30,20 @@ class ProductsController extends Controller
             });
         }
 
-        $products = $query->get();
+        // Get view mode (default to grid)
+        $viewMode = $request->get('view', 'grid');
+        
+        // Dynamic pagination based on view mode
+        $perPage = $viewMode === 'list' ? 5 : 6;
+        
+        $products = $query->paginate($perPage)->appends([
+            'search' => $request->search,
+            'category' => $selectedCategory,
+            'view' => $viewMode
+        ]);
 
         // Get categories with product count
         $categories = Category::withCount('products')->get();
-
-        // Get view mode (default to grid)
-        $viewMode = $request->get('view', 'grid');
 
         return view('products', [
             'products' => $products,

@@ -3,7 +3,13 @@
 <nav class="navbar navbar-expand-lg navbar-light shadow-sm fixed-top" style="background: linear-gradient(135deg,#F5E6D3 0%,#E8D4B8 100%); z-index:1030;">
     <div class="container-fluid px-4">
         <a class="navbar-brand fw-bold fs-3 d-flex align-items-center gap-2" href="/" style="font-family: Georgia, serif; letter-spacing:1px; color:#2C2C2C;">
-            <img src="{{ asset('storage/images/Logo_Vanilla.png') }}" alt="Logo Vanilla Bakery" style="height:50px; width:auto; object-fit:contain; filter:drop-shadow(2px 2px 4px rgba(0,0,0,.1));">
+            @if(file_exists(storage_path('app/public/images/Logo_Vanilla.png')))
+                <img src="{{ asset('storage/images/Logo_Vanilla.png') }}" alt="Logo Vanilla Bakery" style="height:50px; width:auto; object-fit:contain; filter:drop-shadow(2px 2px 4px rgba(0,0,0,.1));">
+            @elseif(file_exists(public_path('images/Logo_Vanilla.png')))
+                <img src="{{ asset('images/Logo_Vanilla.png') }}" alt="Logo Vanilla Bakery" style="height:50px; width:auto; object-fit:contain; filter:drop-shadow(2px 2px 4px rgba(0,0,0,.1));">
+            @else
+                <i class="bi bi-shop" style="font-size: 2rem; color: #D4AF88;"></i>
+            @endif
             <span class="d-none d-md-inline">Vanilla Bakery</span>
         </a>
         <button class="navbar-toggler border-0 shadow-sm" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" style="background-color:#fff;">

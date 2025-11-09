@@ -1,80 +1,136 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Manage Products') }}
-            </h2>
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1 class="page-title">
+                    <i class="bi bi-box-seam me-2" style="color: #D4AF88;"></i>
+                    Manage Products
+                </h1>
+                <p class="page-subtitle mb-0">Add, edit, or remove products from your bakery inventory.</p>
+            </div>
+            <a href="{{ route('admin.products.create') }}" class="btn btn-primary">
+                <i class="bi bi-plus-circle-fill"></i>
+                Add New Product
+            </a>
         </div>
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            @if (session('success'))
-                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
-                    <span class="block sm:inline">{{ session('success') }}</span>
-                </div>
-            @endif
-
-            <div class="mb-6 flex justify-end">
-                <a href="{{ route('admin.products.create') }}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    Add New Product
-                </a>
+    <div class="container-fluid">
+        <!-- Success Message -->
+        @if (session('success'))
+            <div class="alert alert-success" role="alert">
+                <i class="bi bi-check-circle-fill fs-5"></i>
+                <span>{{ session('success') }}</span>
             </div>
+        @endif
 
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            @forelse ($products as $product)
+        <!-- Products Table -->
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-list-ul me-2"></i>
+                All Products ({{ $products->total() }})
+            </div>
+            <div class="card-body p-0">
+                @if($products->count() > 0)
+                    <div class="table-container">
+                        <table class="table mb-0">
+                            <thead>
                                 <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        @if ($product->imagePath && Storage::disk('public')->exists($product->imagePath))
-                                            <img src="{{ asset('storage/' . $product->imagePath) }}" alt="{{ $product->name }}" class="h-16 w-16 object-cover rounded">
-                                        @else
-                                            <div class="h-16 w-16 bg-gray-200 rounded flex items-center justify-center">
-                                                <span class="text-gray-400">No image</span>
+                                    <th style="width: 80px;">Image</th>
+                                    <th>Name</th>
+                                    <th>Categories</th>
+                                    <th style="width: 150px;">Price</th>
+                                    <th>Description</th>
+                                    <th style="width: 200px;" class="text-center">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($products as $product)
+                                    <tr>
+                                        <td>
+                                            @if ($product->imagePath && Storage::disk('public')->exists($product->imagePath))
+                                                <img src="{{ asset('storage/' . $product->imagePath) }}" 
+                                                     alt="{{ $product->name }}" 
+                                                     class="product-image-thumb">
+                                            @else
+                                                <div class="product-image-thumb d-flex align-items-center justify-content-center" 
+                                                     style="background: linear-gradient(135deg, #F5E6D3 0%, #E8D4B8 100%);">
+                                                    <i class="bi bi-image" style="color: #D4AF88;"></i>
+                                                </div>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <strong class="d-block">{{ $product->name }}</strong>
+                                            <small class="text-muted">ID: #{{ str_pad($product->id, 4, '0', STR_PAD_LEFT) }}</small>
+                                        </td>
+                                        <td>
+                                            @foreach($product->categories as $category)
+                                                <span class="badge badge-primary me-1 mb-1">{{ $category->name }}</span>
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-primary">
+                                                Rp {{ number_format($product->price, 0, ',', '.') }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div style="max-width: 300px;">
+                                                {{ Str::limit($product->description, 80) }}
                                             </div>
-                                        @endif
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="text-sm font-medium text-gray-900">{{ $product->name }}</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">Rp {{ number_format($product->price, 0, ',', '.') }}</div>
-                                    </td>
-                                    <td class="px-6 py-4">
-                                        <div class="text-sm text-gray-900">{{ Str::limit($product->description, 50) }}</div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <a href="{{ route('admin.products.edit', $product) }}" class="text-indigo-600 hover:text-indigo-900 mr-3">Edit</a>
-                                        <form action="{{ route('admin.products.destroy', $product) }}" method="POST" class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure you want to delete this product?')">Delete</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="5" class="px-6 py-4 text-center text-gray-500">No products found.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-
-                    <div class="mt-4">
-                        {{ $products->links() }}
+                                        </td>
+                                        <td class="text-center">
+                                            <div class="btn-group" role="group">
+                                                <a href="{{ route('products.show', $product->id) }}" 
+                                                   class="btn btn-sm btn-secondary" 
+                                                   target="_blank"
+                                                   title="View">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                                <a href="{{ route('admin.products.edit', $product) }}" 
+                                                   class="btn btn-sm btn-primary"
+                                                   title="Edit">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                                <form action="{{ route('admin.products.destroy', $product) }}" 
+                                                      method="POST" 
+                                                      class="d-inline"
+                                                      onsubmit="return confirm('Are you sure you want to delete this product?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-sm btn-danger" title="Delete">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
-                </div>
+
+                    <!-- Pagination -->
+                    <div class="p-3 border-top">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="text-muted small">
+                                Showing {{ $products->firstItem() }} to {{ $products->lastItem() }} of {{ $products->total() }} products
+                            </div>
+                            <div>
+                                {{ $products->links('pagination::bootstrap-5') }}
+                            </div>
+                        </div>
+                    </div>
+                @else
+                    <div class="empty-state">
+                        <i class="bi bi-inbox empty-state-icon"></i>
+                        <h3 class="empty-state-title">No Products Found</h3>
+                        <p class="empty-state-text">Start by adding your first product to the inventory.</p>
+                        <a href="{{ route('admin.products.create') }}" class="btn btn-primary">
+                            <i class="bi bi-plus-circle me-2"></i>
+                            Add Your First Product
+                        </a>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

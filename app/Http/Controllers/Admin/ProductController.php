@@ -14,7 +14,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::latest()->paginate(10);
+        $products = Product::with('categories')->latest()->paginate(10);
         return view('admin.products.index', compact('products'));
     }
 
@@ -36,16 +36,21 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'ingredients' => 'nullable|string',
+            'categories' => 'required|array|min:1',
+            'categories.*' => 'exists:categories,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($request->hasFile('image')) {
-            // Store in storage/app/public/products
-            $path = $request->file('image')->store('products', 'public');
+            // Store in storage/app/public/images
+            $path = $request->file('image')->store('images', 'public');
             $validated['imagePath'] = $path;
         }
 
-        Product::create($validated);
+        $product = Product::create($validated);
+        
+        // Attach categories
+        $product->categories()->attach($request->categories);
 
         return redirect()->route('admin.products.index')
             ->with('success', 'Product created successfully.');
@@ -56,6 +61,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
+        $product->load('categories');
         return view('admin.products.edit', compact('product'));
     }
 
@@ -69,6 +75,8 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'ingredients' => 'nullable|string',
+            'categories' => 'required|array|min:1',
+            'categories.*' => 'exists:categories,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -79,11 +87,14 @@ class ProductController extends Controller
             }
 
             // Store new image
-            $path = $request->file('image')->store('products', 'public');
+            $path = $request->file('image')->store('images', 'public');
             $validated['imagePath'] = $path;
         }
 
         $product->update($validated);
+        
+        // Sync categories
+        $product->categories()->sync($request->categories);
 
         return redirect()->route('admin.products.index')
             ->with('success', 'Product updated successfully.');

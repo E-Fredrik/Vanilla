@@ -327,6 +327,25 @@
                     @endforeach
                 </div>
             @endif
+
+            <!-- Pagination Section -->
+            <div class="row mt-5">
+                <div class="col-12">
+                    <nav aria-label="Product pagination">
+                        <div class="d-flex justify-content-center align-items-center flex-column gap-3">
+                            <!-- Pagination Info -->
+                            <p class="text-muted mb-0">
+                                Showing <strong>{{ $products->firstItem() ?? 0 }}</strong> to 
+                                <strong>{{ $products->lastItem() ?? 0 }}</strong> of 
+                                <strong>{{ $products->total() }}</strong> products
+                            </p>
+                            
+                            <!-- Pagination Links -->
+                            {{ $products->links('pagination::bootstrap-5') }}
+                        </div>
+                    </nav>
+                </div>
+            </div>
         @else
             <!-- Empty State -->
             <div class="row">
@@ -398,6 +417,23 @@
             duration: 600,
             easing: 'ease-out',
             once: true
+        });
+        
+        // Scroll to top on pagination click
+        document.addEventListener('DOMContentLoaded', function() {
+            const paginationLinks = document.querySelectorAll('.pagination a');
+            
+            paginationLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Smooth scroll to products section
+                    setTimeout(() => {
+                        window.scrollTo({
+                            top: 300,
+                            behavior: 'smooth'
+                        });
+                    }, 100);
+                });
+            });
         });
     </script>
 @endsection

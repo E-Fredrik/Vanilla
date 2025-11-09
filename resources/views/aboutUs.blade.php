@@ -23,8 +23,24 @@
                     </p>
                 </div>
                 <div class="col-lg-6">
-                    <img src="{{ asset('storage/images/jumbotron.jpeg') }}" alt="Vanilla Bakery" class="img-fluid rounded shadow-lg"
-                        style="object-fit: cover; max-height: 400px; width: 100%;">
+                    @php
+                        $aboutImagePath = null;
+                        if (Storage::disk('public')->exists('images/jumbotron.jpeg')) {
+                            $aboutImagePath = asset('storage/images/jumbotron.jpeg');
+                        } elseif (file_exists(public_path('images/jumbotron.jpeg'))) {
+                            $aboutImagePath = asset('images/jumbotron.jpeg');
+                        }
+                    @endphp
+                    
+                    @if($aboutImagePath)
+                        <img src="{{ $aboutImagePath }}" alt="Vanilla Bakery" class="img-fluid rounded shadow-lg"
+                            style="object-fit: cover; max-height: 400px; width: 100%;">
+                    @else
+                        <div class="img-fluid rounded shadow-lg d-flex align-items-center justify-content-center"
+                             style="background: linear-gradient(135deg, #F5E6D3 0%, #E8D4B8 100%); height: 400px;">
+                            <i class="bi bi-image display-1" style="color: #D4AF88;"></i>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

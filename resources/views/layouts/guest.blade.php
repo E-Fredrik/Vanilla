@@ -11,20 +11,51 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+        
+        <!-- Custom Styles -->
+        <style>
+            body {
+                font-family: 'Figtree', sans-serif;
+            }
+            .auth-card {
+                background: white;
+                border-radius: 1rem;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            }
+            .btn-primary {
+                background-color: #D4AF88;
+                border-color: #D4AF88;
+            }
+            .btn-primary:hover {
+                background-color: #C19A6B;
+                border-color: #C19A6B;
+            }
+            .form-control:focus {
+                border-color: #D4AF88;
+                box-shadow: 0 0 0 0.25rem rgba(212, 175, 136, 0.25);
+            }
+        </style>
     </head>
-    <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-            <div>
+    <body class="bg-light">
+        <div class="min-vh-100 d-flex flex-column justify-content-center align-items-center py-5">
+            <div class="mb-4">
                 <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-shop" style="font-size: 3rem; color: #D4AF88;"></i>
+                        <span class="h3 mb-0 fw-bold" style="color: #2C2C2C;">Vanilla Bakery</span>
+                    </div>
                 </a>
             </div>
 
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
+            <div class="auth-card p-4 p-md-5" style="width: 100%; max-width: 450px;">
                 {{ $slot }}
             </div>
         </div>
+
+        <!-- Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>

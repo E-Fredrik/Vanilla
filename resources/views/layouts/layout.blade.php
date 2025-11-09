@@ -12,8 +12,110 @@
     <link rel="stylesheet" href="css/navigation.css">
     <style>
         body {
-            padding-top: 70px; /* Add padding to prevent content from hiding under fixed navbar */
+            padding-top: 70px;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        /* Custom Pagination Styles */
+        .pagination {
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .pagination .page-link {
+            color: #2C2C2C;
+            background-color: white;
+            border: 2px solid #D4AF88;
+            padding: 0.5rem 1rem;
+            border-radius: 0.75rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin: 0.25rem;
+            min-width: 45px;
+            text-align: center;
+        }
+        
+        .pagination .page-link:hover {
+            color: white;
+            background-color: #D4AF88;
+            border-color: #D4AF88;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(212, 175, 136, 0.4);
+        }
+        
+        .pagination .page-item.active .page-link {
+            background: linear-gradient(135deg, #D4AF88 0%, #C19A6B 100%);
+            border-color: #D4AF88;
+            color: white;
+            box-shadow: 0 6px 15px rgba(212, 175, 136, 0.5);
+            font-weight: 600;
+        }
+        
+        .pagination .page-item.disabled .page-link {
+            color: #6c757d;
+            background-color: #f8f9fa;
+            border-color: #dee2e6;
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .pagination .page-link:focus {
+            box-shadow: 0 0 0 0.25rem rgba(212, 175, 136, 0.25);
+            z-index: 3;
+        }
+        
+        /* First/Last/Prev/Next page buttons with icons */
+        .pagination .page-item:first-child .page-link,
+        .pagination .page-item:last-child .page-link {
+            border-radius: 0.75rem;
+            font-weight: 600;
+        }
+        
+        /* Add icons spacing */
+        .pagination .page-link i {
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive pagination */
+        @media (max-width: 576px) {
+            .pagination .page-link {
+                padding: 0.4rem 0.75rem;
+                font-size: 0.875rem;
+                min-width: 40px;
+            }
+            
+            .pagination {
+                gap: 0.25rem;
+            }
+            
+            .pagination .page-link span {
+                display: none;
+            }
+            
+            .pagination .page-link i {
+                margin: 0 !important;
+            }
+        }
+        
+        /* Pagination info text */
+        .pagination-info {
+            background: linear-gradient(135deg, #F5E6D3 0%, #E8D4B8 100%);
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
