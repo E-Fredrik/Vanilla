@@ -5,8 +5,15 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                    <a href="{{ route('dashboard') }}" class="flex items-center gap-2">
+                        <img src="/images/Logo_Vanilla.png" 
+                             alt="Vanilla Bakery Logo" 
+                             class="h-10 w-auto"
+                             style="filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));"
+                             onerror="console.error('Logo failed to load'); this.onerror=null; this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%23D4AF88%22/><text x=%2250%22 y=%2265%22 font-size=%2250%22 font-weight=%22bold%22 text-anchor=%22middle%22 fill=%22white%22>V</text></svg>';">
+                        <span class="hidden sm:inline-block font-bold text-lg" style="color: #2C2C2C; font-family: Georgia, serif;">
+                            Vanilla Bakery
+                        </span>
                     </a>
                 </div>
 
@@ -36,6 +43,11 @@
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
+                        </x-dropdown-link>
+
+                        <!-- Visit Website -->
+                        <x-dropdown-link href="/" target="_blank">
+                            {{ __('Visit Website') }}
                         </x-dropdown-link>
 
                         <!-- Authentication -->
@@ -70,13 +82,22 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            
+            <x-responsive-nav-link href="/" target="_blank">
+                {{ __('Visit Website') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+            <div class="px-4 flex items-center gap-2 mb-2">
+                <img src="/images/Logo_Vanilla.png" 
+                     alt="Vanilla Bakery Logo" 
+                     class="h-8 w-auto">
+                <div>
+                    <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
+                    <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                </div>
             </div>
 
             <div class="mt-3 space-y-1">
