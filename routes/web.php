@@ -25,10 +25,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Dashboard
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     
-    // Profile Routes
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // // Profile Routes
+    // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
     // Admin Product CRUD Routes
     Route::resource('admin/products', AdminProductController::class)->names([

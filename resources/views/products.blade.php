@@ -149,10 +149,25 @@
                                 <!-- Product Image -->
                                 <div class="position-relative overflow-hidden" style="height: 250px; background: linear-gradient(135deg, #F5E6D3 0%, #E8D4B8 100%);">
                                     @if ($product->imagePath)
-                                        @if(file_exists(public_path('images/' . $product->imagePath)))
-                                            <img src="{{ asset('images/' . $product->imagePath) }}" 
-                                                 alt="{{ $product->name }}" 
-                                                 class="product-image w-100 h-100"
+                                        @php
+                                            // Remove any path prefixes
+                                            $imageName = basename($product->imagePath);
+                                            
+                                            // Check storage location first
+                                            if(Storage::disk('public')->exists('images/' . $imageName)) {
+                                                $imageSrc = asset('storage/images/' . $imageName);
+                                            } 
+                                            // Then check public directory
+                                            elseif(file_exists(public_path('images/' . $imageName))) {
+                                                $imageSrc = asset('images/' . $imageName);
+                                            } 
+                                            else {
+                                                $imageSrc = null;
+                                            }
+                                        @endphp
+                                        
+                                        @if($imageSrc)
+                                            <img src="{{ $imageSrc }}" alt="{{ $product->name }}" class="product-image w-100 h-100"
                                                  style="object-fit: cover;">
                                         @else
                                             <div class="w-100 h-100 d-flex align-items-center justify-content-center">
@@ -237,17 +252,18 @@
                                         <div class="position-relative overflow-hidden h-100" style="min-height: 180px; background: linear-gradient(135deg, #F5E6D3 0%, #E8D4B8 100%);">
                                             @if ($product->imagePath)
                                                 @php
-                                                    $cleanPath = str_replace('images/', '', $product->imagePath);
-                                                    $cleanPath = str_replace('storage/', '', $cleanPath);
+                                                    // Remove any path prefixes
+                                                    $imageName = basename($product->imagePath);
                                                     
-                                                    $storageExists = Storage::disk('public')->exists('images/' . $cleanPath);
-                                                    $publicExists = file_exists(public_path('images/' . $cleanPath));
-                                                    
-                                                    if ($storageExists) {
-                                                        $imageSrc = asset('storage/images/' . $cleanPath);
-                                                    } elseif ($publicExists) {
-                                                        $imageSrc = asset('images/' . $cleanPath);
-                                                    } else {
+                                                    // Check storage location first
+                                                    if(Storage::disk('public')->exists('images/' . $imageName)) {
+                                                        $imageSrc = asset('storage/images/' . $imageName);
+                                                    } 
+                                                    // Then check public directory
+                                                    elseif(file_exists(public_path('images/' . $imageName))) {
+                                                        $imageSrc = asset('images/' . $imageName);
+                                                    } 
+                                                    else {
                                                         $imageSrc = null;
                                                     }
                                                 @endphp
