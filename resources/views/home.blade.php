@@ -181,7 +181,8 @@
                                                 </a>
                                                 <a href="https://wa.me/6281332227289?text=Hi!%20I'm%20interested%20in%20{{ urlencode($product->name) }}"
                                                     target="_blank"
-                                                    class="btn btn-outline-success btn-lg px-4 px-lg-5 shadow-sm">
+                                                    class="btn btn-lg px-4 px-lg-5 shadow-sm"
+                                                    style ="background-color: #D4AF88; color: white; border: none;">
                                                     <i class="bi bi-whatsapp me-2"></i>Order Now
                                                 </a>
                                             </div>
